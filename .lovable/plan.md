@@ -69,16 +69,17 @@ Parent path: Pricing -> gift voucher or block purchase -> pays without needing t
 
 | Feature | Decision | Notes |
 | --- | --- | --- |
-| Booking calendar | Rebuild (improved) | Availability rules, lesson durations, deposits, reschedule/cancel links, buffer time, Google Calendar sync |
-| Pricing calculator | Improve | Fewer inputs, instant total, one-click straight into checkout |
+| Booking calendar | Rebuild (improved) | 1hr30 slots, availability rules, reschedule/cancel with 24h rule, buffer time, Google Calendar sync |
+| Pricing calculator | Improve | Lesson count vs 10-hour package, test-day fee by centre, one click into checkout |
+| Stripe payments | Port from Bolt | Same flow/logic reused; full payment upfront |
 | AI chatbot | Rebuild | Answers from your real pricing/FAQ content, WhatsApp and booking handoff |
 | WhatsApp button | Keep, refine | Prefilled message with page context, mobile-first placement |
-| Instructor admin | Rebuild (improved) | Auth-protected schedule, block off dates, view payments, mark pass results |
-| Stripe checkout | New | Deposits, full lessons, blocks, intensives, vouchers |
-| Reviews module | New | Testimonials with review schema |
-| Postcode area pages | New | Local SEO |
-| Email/SMS confirmations + reminders | New | Reduces no-shows |
+| Instructor admin | Rebuild (improved) | Auth-protected schedule, block-out dates, payments, pass results |
+| Reviews module | New | 4.9★ / 119 reviews plus testimonials with review schema |
+| Postcode area pages | New | Local SEO for RG1–RG30 |
+| Email confirmations + reminders | New | Reduces no-shows; no SMS |
 | Blog | Not in v1 | Add later if useful |
+
 
 ## 6. Confirmed business facts
 
