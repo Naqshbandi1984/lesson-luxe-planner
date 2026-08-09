@@ -45,7 +45,7 @@ function LessonPage() {
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
         <ul className="space-y-3">
-          {lesson.bullets.map((b) => (
+          {lesson.bullets.map((b: string) => (
             <li key={b} className="flex gap-3 rounded-xl border border-border bg-card p-4">
               <Check className="mt-0.5 h-5 w-5 shrink-0 text-success" aria-hidden="true" />
               <span>{b}</span>
