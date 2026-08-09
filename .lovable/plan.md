@@ -1,4 +1,4 @@
-# Automatic Driving Lessons Reading — Website Plan (Phase 1)
+# learnerdriver.academy — Website Plan (Phase 1)
 
 Note on starting point: this Lovable project is currently an empty template. Nothing from the Bolt.new repo exists here yet, so the build is a clean rebuild of every feature, with data/content migrated from the old site afterwards.
 
@@ -18,7 +18,7 @@ Every page carries one primary CTA (Book) and one low-friction CTA (WhatsApp).
 
 ## 2. Target audience (priority order)
 
-1. Learner drivers 17–25 in Reading who specifically want automatic
+1. Learner drivers of any age in Reading who specifically want automatic
 2. Parents booking/paying for a teen — need price clarity, safety, credibility
 3. Nervous / anxious and mature learners — automatic is the draw; tone matters most
 4. Intensive / semi-intensive course seekers — need dates, cost, test availability
@@ -71,7 +71,7 @@ Parent path: Pricing -> gift voucher or block purchase -> pays without needing t
 | --- | --- | --- |
 | Booking calendar | Rebuild (improved) | 1hr30 slots, availability rules, reschedule/cancel with 24h rule, buffer time, Google Calendar sync |
 | Pricing calculator | Improve | Lesson count vs 10-hour package, test-day fee by centre, one click into checkout |
-| Stripe payments | Port from Bolt | Same flow/logic reused; full payment upfront |
+| Stripe payments | Deferred to you | Booking flow UI built end-to-end (lesson selection, slot picking, checkout screen) with a clean handoff point; no live payment processing in this build |
 | AI chatbot | Rebuild | Answers from your real pricing/FAQ content, WhatsApp and booking handoff |
 | WhatsApp button | Keep, refine | Prefilled message with page context, mobile-first placement |
 | Instructor admin | Rebuild (improved) | Auth-protected schedule, block-out dates, payments, pass results |
@@ -83,15 +83,17 @@ Parent path: Pricing -> gift voucher or block purchase -> pays without needing t
 
 ## 6. Confirmed business facts
 
-- Name: Automatic Driving Lessons Reading — learnerdriver.academy
+- Brand name used throughout: learnerdriver.academy
 - Phone 07825 031594 · enquiries@learnerdriver.academy
 - Lesson: £67.50 per 1hr30 lesson
 - 10-hour package: £430
 - Test day fee: £100 (Reading test centre) · £150 (Farnborough, Greenham, Basingstoke)
 - Full payment upfront to secure any booking; 24 hours' notice for cancellations or test changes
 - 119 reviews, 4.9 stars — displayed on home, pricing, booking and area pages
+- Availability: Mon–Thu 11:30–19:00 (last booking 17:30) · Friday closed · Sat–Sun 13:00–16:15 (last booking 14:45)
+- Rolling 7-day booking window — customers can book up to 7 days ahead only
 
-Still needed from you: instructor and car photos, 8–12 written testimonials (name, area, pass date), working hours/availability, ADI credentials, Google Business Profile link, and your preferred cancellation-policy wording. I'll draft all page copy for review; nothing beyond the facts above gets stated until you supply it.
+Testimonials and photos follow separately; the build uses clearly marked "TBD" placeholders so nothing is blocked. "Automatic driving lessons Reading" is still used as descriptive/SEO wording, but the brand shown is learnerdriver.academy.
 
 ## 7. Content needs
 
@@ -106,8 +108,8 @@ Confident, local, modern — not stock-clipart driving school. Clean type, stron
 - TanStack Start (React + Vite) — this project's fixed framework
 - Database and auth: your existing Supabase project, connected directly to this project rather than provisioning a new backend, so all data stays in one place for later migration
 - Tables: services/prices, availability rules, bookings, customers, payments, reviews, area content, FAQ
-- Payments: Stripe, reusing the payment flow and logic from the Bolt site — full payment upfront at booking, no deposits. Send me the existing Stripe/checkout code (or repo access) and I'll port it rather than rebuild
-- Booking rules: 1hr30 slots, 10-hour package credits, test-day products at £100/£150 by centre, 24-hour cancellation window enforced in the reschedule/cancel flow
+- Payments: not wired in this build. The booking flow ends at a checkout screen with an order summary and a clearly isolated payment step, so you can drop Stripe in later without reworking the UI. Bookings can be recorded as "awaiting payment"
+- Booking rules: 1hr30 slots on the availability pattern above, rolling 7-day window, 10-hour package credits, test-day options at £100/£150 by centre, 24-hour cancellation window enforced in the reschedule/cancel flow
 - Google Calendar two-way sync for your diary
 - Email confirmations and reminders only — no SMS
 - WhatsApp click-to-chat with page-context prefilled message
@@ -116,16 +118,17 @@ Confident, local, modern — not stock-clipart driving school. Clean type, stron
 
 ## 10. Remaining open items
 
-1. Access to the Bolt repo (or the Stripe checkout + webhook files pasted in) so the payment flow can be ported rather than rewritten.
-2. Your Supabase project URL and publishable key, so I can connect the existing database — plus a quick look at the current table structure.
-3. Weekly availability pattern and how far ahead bookings can be made.
-4. Testimonials and photos.
+1. Your Supabase project URL and publishable key so I can connect the existing database, plus a look at the current table structure. Without these I'll build against clearly-marked local mock data and swap the data layer over when you send them.
+2. Testimonials and photos — placeholders marked TBD until they arrive.
+3. Anything else you want carried over verbatim from the Bolt site.
+
+Project is exportable to GitHub at any point for pulling into Bolt.
 
 
 ## Phase 2 build order (after approval)
 
-1. Design directions + design system, Cloud + Stripe enabled
-2. Home, pricing + calculator, booking flow with payments
+1. Design directions + design system, Supabase connection
+2. Home, pricing + calculator, booking flow UI through to the checkout screen (no live payments)
 3. Service pages, area pages, reviews, FAQ, contact
 4. Instructor admin, notifications, chatbot
 5. SEO, schema, performance pass, content migration
