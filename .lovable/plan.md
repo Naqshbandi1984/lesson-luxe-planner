@@ -108,8 +108,8 @@ Confident, local, modern — not stock-clipart driving school. Clean type, stron
 - TanStack Start (React + Vite) — this project's fixed framework
 - Database and auth: your existing Supabase project, connected directly to this project rather than provisioning a new backend, so all data stays in one place for later migration
 - Tables: services/prices, availability rules, bookings, customers, payments, reviews, area content, FAQ
-- Payments: Stripe, reusing the payment flow and logic from the Bolt site — full payment upfront at booking, no deposits. Send me the existing Stripe/checkout code (or repo access) and I'll port it rather than rebuild
-- Booking rules: 1hr30 slots, 10-hour package credits, test-day products at £100/£150 by centre, 24-hour cancellation window enforced in the reschedule/cancel flow
+- Payments: not wired in this build. The booking flow ends at a checkout screen with an order summary and a clearly isolated payment step, so you can drop Stripe in later without reworking the UI. Bookings can be recorded as "awaiting payment"
+- Booking rules: 1hr30 slots on the availability pattern above, rolling 7-day window, 10-hour package credits, test-day options at £100/£150 by centre, 24-hour cancellation window enforced in the reschedule/cancel flow
 - Google Calendar two-way sync for your diary
 - Email confirmations and reminders only — no SMS
 - WhatsApp click-to-chat with page-context prefilled message
@@ -118,16 +118,17 @@ Confident, local, modern — not stock-clipart driving school. Clean type, stron
 
 ## 10. Remaining open items
 
-1. Access to the Bolt repo (or the Stripe checkout + webhook files pasted in) so the payment flow can be ported rather than rewritten.
-2. Your Supabase project URL and publishable key, so I can connect the existing database — plus a quick look at the current table structure.
-3. Weekly availability pattern and how far ahead bookings can be made.
-4. Testimonials and photos.
+1. Your Supabase project URL and publishable key so I can connect the existing database, plus a look at the current table structure. Without these I'll build against clearly-marked local mock data and swap the data layer over when you send them.
+2. Testimonials and photos — placeholders marked TBD until they arrive.
+3. Anything else you want carried over verbatim from the Bolt site.
+
+Project is exportable to GitHub at any point for pulling into Bolt.
 
 
 ## Phase 2 build order (after approval)
 
-1. Design directions + design system, Cloud + Stripe enabled
-2. Home, pricing + calculator, booking flow with payments
+1. Design directions + design system, Supabase connection
+2. Home, pricing + calculator, booking flow UI through to the checkout screen (no live payments)
 3. Service pages, area pages, reviews, FAQ, contact
 4. Instructor admin, notifications, chatbot
 5. SEO, schema, performance pass, content migration
