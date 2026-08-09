@@ -69,54 +69,58 @@ Parent path: Pricing -> gift voucher or block purchase -> pays without needing t
 
 | Feature | Decision | Notes |
 | --- | --- | --- |
-| Booking calendar | Rebuild (improved) | Availability rules, lesson durations, deposits, reschedule/cancel links, buffer time, Google Calendar sync |
-| Pricing calculator | Improve | Fewer inputs, instant total, one-click straight into checkout |
+| Booking calendar | Rebuild (improved) | 1hr30 slots, availability rules, reschedule/cancel with 24h rule, buffer time, Google Calendar sync |
+| Pricing calculator | Improve | Lesson count vs 10-hour package, test-day fee by centre, one click into checkout |
+| Stripe payments | Port from Bolt | Same flow/logic reused; full payment upfront |
 | AI chatbot | Rebuild | Answers from your real pricing/FAQ content, WhatsApp and booking handoff |
 | WhatsApp button | Keep, refine | Prefilled message with page context, mobile-first placement |
-| Instructor admin | Rebuild (improved) | Auth-protected schedule, block off dates, view payments, mark pass results |
-| Stripe checkout | New | Deposits, full lessons, blocks, intensives, vouchers |
-| Reviews module | New | Testimonials with review schema |
-| Postcode area pages | New | Local SEO |
-| Email/SMS confirmations + reminders | New | Reduces no-shows |
+| Instructor admin | Rebuild (improved) | Auth-protected schedule, block-out dates, payments, pass results |
+| Reviews module | New | 4.9★ / 119 reviews plus testimonials with review schema |
+| Postcode area pages | New | Local SEO for RG1–RG30 |
+| Email confirmations + reminders | New | Reduces no-shows; no SMS |
 | Blog | Not in v1 | Add later if useful |
 
-## 6. Content needs
 
-Needed from you: instructor photo(s), car photo, 8–12 written testimonials (name + area + pass date), exact current prices for hourly/blocks/intensives, working hours, phone number, business email, licence/ADI details, pass-rate or pass-count if you want it stated, cancellation policy wording. I'll draft all page copy for your review; nothing invented — ratings, pass rates, and quotes only go live once you supply them.
+## 6. Confirmed business facts
 
-## 7. Design direction
+- Name: Automatic Driving Lessons Reading — learnerdriver.academy
+- Phone 07825 031594 · enquiries@learnerdriver.academy
+- Lesson: £67.50 per 1hr30 lesson
+- 10-hour package: £430
+- Test day fee: £100 (Reading test centre) · £150 (Farnborough, Greenham, Basingstoke)
+- Full payment upfront to secure any booking; 24 hours' notice for cancellations or test changes
+- 119 reviews, 4.9 stars — displayed on home, pricing, booking and area pages
 
-Confident, local, modern — not stock-clipart driving school. Clean type, strong photography of you and the car, big legible pricing, generous mobile tap targets. Palette leaning calm blue/teal with a warm high-contrast accent for CTAs, avoiding the tired red/L-plate cliché unless you want it. I'll produce 3 rendered design directions to pick from before building. Reference feel: Booksy-style booking clarity, Monzo-style plain-English trust copy, local-service simplicity.
+Still needed from you: instructor and car photos, 8–12 written testimonials (name, area, pass date), working hours/availability, ADI credentials, Google Business Profile link, and your preferred cancellation-policy wording. I'll draft all page copy for review; nothing beyond the facts above gets stated until you supply it.
 
-## 8. Technical plan
+## 7. Content needs
 
-- TanStack Start (React + Vite) — this project's fixed framework, replacing the plain Vite/React setup
-- Lovable Cloud for database, auth, storage, and server logic (Postgres + row-level security)
-- Tables: lessons/services, availability rules, bookings, customers, payments, reviews, area pages, chatbot FAQ
-- Stripe Checkout for deposits, blocks, intensives, vouchers; webhook confirms booking
-- Google Calendar sync for your diary; email confirmations; optional SMS reminders
-- WhatsApp via click-to-chat link (no API cost); Business API only if you later want automation
-- Migration: content, testimonials, and pricing lifted from the Bolt site; historical bookings imported only if you want them
+Home hero copy, service page copy for each lesson type, 7 genuinely distinct postcode pages, FAQ set (test booking, theory, licence, cancellations, what's included), pricing table with the figures above, instructor bio built on 13 years' experience, and legal pages. Photography is the main gap.
 
-## 9. SEO & local search
+## 8. Design direction
 
-- Primary: automatic driving lessons Reading, automatic driving instructor Reading, automatic driving lessons near me
-- Secondary: intensive automatic driving course Reading, automatic driving lessons for nervous drivers Reading, female-friendly/patient instructor variants, plus per-postcode terms for RG1, RG2, RG4, RG5, RG6, RG7, RG30
-- One indexable page per postcode with genuinely local content (test centre, common routes, pickup areas) — not duplicated text
-- LocalBusiness + DrivingSchool schema, aggregate review schema, FAQ schema
-- NAP consistent with Google Business Profile; GBP services/products mirrored on the pricing page; review-request link after each pass
-- Fast mobile performance, compressed images, clear internal linking from home to areas and services
+Confident, local, modern — not stock-clipart driving school. Clean type, strong photography of you and the car, big legible pricing (£67.50 / £430 shown plainly), generous mobile tap targets, 4.9★ from 119 reviews as a persistent trust bar. Calm blue/teal base with a warm high-contrast CTA accent; avoiding the tired red L-plate cliché. I'll produce 3 rendered design directions for you to pick from before building anything.
 
-## 10. Open questions
+## 9. Technical plan
 
-1. Exact current prices: hourly, 5h/10h blocks, intensive course tiers?
-2. Deposit or full payment at booking, and your cancellation window?
-3. Business name to display, phone, email, and Google Business Profile link?
-4. Do you want the review count and pass rate stated numerically? If so, exact figures.
-5. Diary: Google Calendar sync, or manage availability only in the admin panel?
-6. SMS reminders wanted (small per-message cost), or email only?
-7. Anything from the Bolt site you want kept exactly as-is?
-8. Reference sites you like — send 2-3 links.
+- TanStack Start (React + Vite) — this project's fixed framework
+- Database and auth: your existing Supabase project, connected directly to this project rather than provisioning a new backend, so all data stays in one place for later migration
+- Tables: services/prices, availability rules, bookings, customers, payments, reviews, area content, FAQ
+- Payments: Stripe, reusing the payment flow and logic from the Bolt site — full payment upfront at booking, no deposits. Send me the existing Stripe/checkout code (or repo access) and I'll port it rather than rebuild
+- Booking rules: 1hr30 slots, 10-hour package credits, test-day products at £100/£150 by centre, 24-hour cancellation window enforced in the reschedule/cancel flow
+- Google Calendar two-way sync for your diary
+- Email confirmations and reminders only — no SMS
+- WhatsApp click-to-chat with page-context prefilled message
+- AI chatbot answering from your real pricing/FAQ content, with booking and WhatsApp handoff
+- Instructor admin behind Supabase auth: schedule, block-out dates, bookings, payments, pass results
+
+## 10. Remaining open items
+
+1. Access to the Bolt repo (or the Stripe checkout + webhook files pasted in) so the payment flow can be ported rather than rewritten.
+2. Your Supabase project URL and publishable key, so I can connect the existing database — plus a quick look at the current table structure.
+3. Weekly availability pattern and how far ahead bookings can be made.
+4. Testimonials and photos.
+
 
 ## Phase 2 build order (after approval)
 
