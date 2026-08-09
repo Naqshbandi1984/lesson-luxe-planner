@@ -1,4 +1,4 @@
-# Automatic Driving Lessons Reading — Website Plan (Phase 1)
+# learnerdriver.academy — Website Plan (Phase 1)
 
 Note on starting point: this Lovable project is currently an empty template. Nothing from the Bolt.new repo exists here yet, so the build is a clean rebuild of every feature, with data/content migrated from the old site afterwards.
 
@@ -18,7 +18,7 @@ Every page carries one primary CTA (Book) and one low-friction CTA (WhatsApp).
 
 ## 2. Target audience (priority order)
 
-1. Learner drivers 17–25 in Reading who specifically want automatic
+1. Learner drivers of any age in Reading who specifically want automatic
 2. Parents booking/paying for a teen — need price clarity, safety, credibility
 3. Nervous / anxious and mature learners — automatic is the draw; tone matters most
 4. Intensive / semi-intensive course seekers — need dates, cost, test availability
@@ -71,7 +71,7 @@ Parent path: Pricing -> gift voucher or block purchase -> pays without needing t
 | --- | --- | --- |
 | Booking calendar | Rebuild (improved) | 1hr30 slots, availability rules, reschedule/cancel with 24h rule, buffer time, Google Calendar sync |
 | Pricing calculator | Improve | Lesson count vs 10-hour package, test-day fee by centre, one click into checkout |
-| Stripe payments | Port from Bolt | Same flow/logic reused; full payment upfront |
+| Stripe payments | Deferred to you | Booking flow UI built end-to-end (lesson selection, slot picking, checkout screen) with a clean handoff point; no live payment processing in this build |
 | AI chatbot | Rebuild | Answers from your real pricing/FAQ content, WhatsApp and booking handoff |
 | WhatsApp button | Keep, refine | Prefilled message with page context, mobile-first placement |
 | Instructor admin | Rebuild (improved) | Auth-protected schedule, block-out dates, payments, pass results |
@@ -83,15 +83,17 @@ Parent path: Pricing -> gift voucher or block purchase -> pays without needing t
 
 ## 6. Confirmed business facts
 
-- Name: Automatic Driving Lessons Reading — learnerdriver.academy
+- Brand name used throughout: learnerdriver.academy
 - Phone 07825 031594 · enquiries@learnerdriver.academy
 - Lesson: £67.50 per 1hr30 lesson
 - 10-hour package: £430
 - Test day fee: £100 (Reading test centre) · £150 (Farnborough, Greenham, Basingstoke)
 - Full payment upfront to secure any booking; 24 hours' notice for cancellations or test changes
 - 119 reviews, 4.9 stars — displayed on home, pricing, booking and area pages
+- Availability: Mon–Thu 11:30–19:00 (last booking 17:30) · Friday closed · Sat–Sun 13:00–16:15 (last booking 14:45)
+- Rolling 7-day booking window — customers can book up to 7 days ahead only
 
-Still needed from you: instructor and car photos, 8–12 written testimonials (name, area, pass date), working hours/availability, ADI credentials, Google Business Profile link, and your preferred cancellation-policy wording. I'll draft all page copy for review; nothing beyond the facts above gets stated until you supply it.
+Testimonials and photos follow separately; the build uses clearly marked "TBD" placeholders so nothing is blocked. "Automatic driving lessons Reading" is still used as descriptive/SEO wording, but the brand shown is learnerdriver.academy.
 
 ## 7. Content needs
 
