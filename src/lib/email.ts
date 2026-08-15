@@ -41,7 +41,18 @@ export async function sendBookingConfirmationEmail(bookingId: string): Promise<N
   }
   const booking = data[0]!;
 
-  const resend = getResendClient();
+  let resend: ReturnType<typeof getResendClient>;
+  try {
+    resend = getResendClient();
+  } catch (err) {
+    // Never let a missing/misconfigured RESEND_API_KEY throw out of this
+    // function — it's a side effect of a booking that already happened, so
+    // a caller (e.g. the Stripe webhook) must never mistake this for the
+    // booking itself having failed.
+    result.errors.push(`Resend not configured: ${err instanceof Error ? err.message : String(err)}`);
+    console.error(`sendBookingConfirmationEmail(${bookingId}):`, result.errors.join(" | "));
+    return result;
+  }
   const dateLabel = formatLongDate(booking.date);
   const timeLabel = `${hhmm(booking.start_time)}–${hhmm(booking.end_time)}`;
   const paymentLabel = PAYMENT_METHOD_LABEL[booking.payment_method ?? ""] ?? "—";

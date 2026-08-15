@@ -81,8 +81,9 @@ async function handleStripeWebhook(request: Request): Promise<Response> {
     const session = event.data.object as Stripe.Checkout.Session;
     const m = session.metadata ?? {};
 
+    let bookingId: string | null = null;
     try {
-      const { data: bookingId, error } = await supabase.rpc("book_lesson", {
+      const { data, error } = await supabase.rpc("book_lesson", {
         p_phone: m["phone"] ?? "",
         p_name: m["name"] ?? "",
         p_lesson_type_slug: m["lesson_type_slug"] ?? "",
@@ -94,13 +95,7 @@ async function handleStripeWebhook(request: Request): Promise<Response> {
         ...(m["email"] ? { p_email: m["email"] } : {}),
       });
       if (error) throw error;
-      // Side effects of a booking that already happened — never let an email
-      // or calendar failure surface as a webhook error or affect the
-      // confirmed status.
-      if (bookingId) {
-        await sendBookingConfirmationEmail(bookingId);
-        await syncCalendarEventForConfirmedBooking(bookingId);
-      }
+      bookingId = data ?? null;
     } catch (err) {
       // The slot was taken (by a confirmed card or bank-transfer booking)
       // between checkout starting and payment completing. Refund rather
@@ -109,6 +104,22 @@ async function handleStripeWebhook(request: Request): Promise<Response> {
       if (typeof session.payment_intent === "string") {
         await stripe.refunds.create({ payment_intent: session.payment_intent });
       }
+    }
+
+    // Side effects of a booking that ALREADY EXISTS in Supabase — the
+    // booking is confirmed and paid for at this point, so nothing here may
+    // ever trigger a refund or otherwise undo it, no matter what fails.
+    // sendBookingConfirmationEmail is wrapped explicitly: a misconfigured
+    // RESEND_API_KEY throws before the function gets a chance to convert
+    // that into a logged NotifyResult error. syncCalendarEventForConfirmedBooking
+    // already catches its own errors internally, so it's safe to call bare.
+    if (bookingId) {
+      try {
+        await sendBookingConfirmationEmail(bookingId);
+      } catch (err) {
+        console.error(`Booking ${bookingId} is confirmed, but the confirmation email failed:`, err);
+      }
+      await syncCalendarEventForConfirmedBooking(bookingId);
     }
   }
 
