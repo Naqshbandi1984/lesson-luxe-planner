@@ -6,6 +6,7 @@
 export const site = {
   brand: "learnerdriver.academy",
   legalName: "learnerdriver.academy",
+  instructorName: "Ibrar",
   tagline: "Automatic driving lessons in Reading",
   phone: "07825 031594",
   phoneHref: "tel:+447825031594",
@@ -40,33 +41,60 @@ export function gbp(amount: number) {
 
 export const policies = {
   payment: "Full payment is required upfront to secure any booking.",
-  cancellation:
-    "24 hours' notice is required to cancel or change a booked lesson or test.",
+  cancellation: "24 hours' notice is required to cancel or change a booked lesson or test.",
 } as const;
 
-/** Opening hours. day = 0 (Sunday) … 6 (Saturday). */
+/** Shown to customers who choose to pay by bank transfer — not secret, safe to display. */
+export const bankTransfer = {
+  accountName: "Ibrar Akram",
+  sortCode: "20-71-03",
+  accountNumber: "80553123",
+} as const;
+
+/**
+ * Opening hours. day = 0 (Sunday) … 6 (Saturday). Each day lists its exact
+ * bookable slots explicitly — not a start/end/step-size range — because the
+ * real schedule has a lunch gap and a 15-minute buffer between lessons, not
+ * uniform back-to-back blocks. An empty `slots` array means closed.
+ */
+export type DaySlot = { start: string; end: string };
+
 export type OpeningDay = {
   day: number;
   label: string;
-  open: string | null;
-  close: string | null;
-  lastBooking: string | null;
+  slots: DaySlot[];
 };
 
-export const openingHours: OpeningDay[] = [
-  { day: 1, label: "Monday", open: "11:30", close: "19:00", lastBooking: "17:30" },
-  { day: 2, label: "Tuesday", open: "11:30", close: "19:00", lastBooking: "17:30" },
-  { day: 3, label: "Wednesday", open: "11:30", close: "19:00", lastBooking: "17:30" },
-  { day: 4, label: "Thursday", open: "11:30", close: "19:00", lastBooking: "17:30" },
-  { day: 5, label: "Friday", open: null, close: null, lastBooking: null },
-  { day: 6, label: "Saturday", open: "13:00", close: "16:15", lastBooking: "14:45" },
-  { day: 0, label: "Sunday", open: "13:00", close: "16:15", lastBooking: "14:45" },
+const WEEKDAY_SLOTS: DaySlot[] = [
+  { start: "11:30", end: "13:00" },
+  { start: "13:15", end: "14:45" },
+  { start: "16:00", end: "17:30" },
+  { start: "17:45", end: "19:15" },
 ];
+
+const WEEKEND_SLOTS: DaySlot[] = [
+  { start: "13:00", end: "14:30" },
+  { start: "14:45", end: "16:15" },
+];
+
+export const openingHours: OpeningDay[] = [
+  { day: 1, label: "Monday", slots: WEEKDAY_SLOTS },
+  { day: 2, label: "Tuesday", slots: WEEKDAY_SLOTS },
+  { day: 3, label: "Wednesday", slots: WEEKDAY_SLOTS },
+  { day: 4, label: "Thursday", slots: WEEKDAY_SLOTS },
+  { day: 5, label: "Friday", slots: [] },
+  { day: 6, label: "Saturday", slots: WEEKEND_SLOTS },
+  { day: 0, label: "Sunday", slots: WEEKEND_SLOTS },
+];
+
+/** Compact "opens–closes" summary for a day, spanning its first slot's start to its last slot's end. */
+export function dayHoursLabel(day: OpeningDay): string {
+  if (day.slots.length === 0) return "Closed";
+  return `${day.slots[0]!.start}–${day.slots[day.slots.length - 1]!.end}`;
+}
 
 /** Customers can book this many days ahead, rolling. */
 export const BOOKING_WINDOW_DAYS = 7;
-/** Lesson length in minutes. */
-export const LESSON_MINUTES = 90;
 
 export type LessonType = {
   slug: string;
@@ -151,7 +179,7 @@ export const areas: Area[] = [
     slug: "rg2",
     postcode: "RG2",
     name: "Whitley and Shinfield",
-    places: "Whitley, Shinfield, Three Mile Cross, Lower Earley border",
+    places: "Whitley, Shinfield, Arborfield, Lower Earley border",
     note: "Close to the A33 corridor, so lessons here mix quiet estate roads with dual carriageway joins and roundabout practice.",
   },
   {
@@ -178,7 +206,7 @@ export const areas: Area[] = [
   {
     slug: "rg7",
     postcode: "RG7",
-    name: "Burghfield and Mortimer",
+    name: "Three Mile Cross",
     places: "Burghfield Common, Mortimer, Theale edge, Beenham",
     note: "Country lanes and national speed limit roads — good for building confidence at higher speeds before test day.",
   },
@@ -193,37 +221,63 @@ export const areas: Area[] = [
 
 export type Testimonial = {
   name: string;
-  area: string;
-  passedOn: string;
   quote: string;
-  placeholder?: boolean;
+  /** Not supplied with these reviews — area/pass-date are only shown when known, never fabricated. */
+  area?: string;
+  passedOn?: string;
 };
 
-/**
- * TBD — real testimonials to be supplied by the instructor.
- * These are clearly marked placeholders and must be replaced before launch.
- */
+/** Real 5-star reviews, quoted verbatim as supplied — typos and all, since editing a genuine review's wording would misrepresent it. */
 export const testimonials: Testimonial[] = [
   {
-    name: "TBD",
-    area: "TBD",
-    passedOn: "TBD",
-    quote: "Placeholder review — real customer wording to be supplied.",
-    placeholder: true,
+    name: "Gabrielle Taylor",
+    quote:
+      "Best driving instructor i had one before him who was no good what so ever. Im so glad to have found ibrar he got me to smash my driving test first time with only 7 lessons. What a great guy! He pushes you and gets you where you need to be to pass. Definitely advice giving him a call if you need someone efficient.",
   },
   {
-    name: "TBD",
-    area: "TBD",
-    passedOn: "TBD",
-    quote: "Placeholder review — real customer wording to be supplied.",
-    placeholder: true,
+    name: "Anushka Gupta",
+    quote:
+      "I've had a positive and smooth experience learning how to drive with Ibrar. He stays calm during lessons and provides constructive feedback, making sure to recount where I did well and where I made mistakes. I'm happy to have passed first time thanks to his guidance. It was also easy to arrange lessons every week, and he was always available so I didn't have any periods where I dropped practice. Would recommend!",
   },
   {
-    name: "TBD",
-    area: "TBD",
-    passedOn: "TBD",
-    quote: "Placeholder review — real customer wording to be supplied.",
-    placeholder: true,
+    name: "Amelie Lily Wilson",
+    quote:
+      "I would highly recommend Ibrar. He's a great teacher and very knowledgeable. I'm an anxious driver and he made me feel comfortable and safe behind the wheel, and I passed first time.",
+  },
+  {
+    name: "Odimgbe Linda",
+    quote:
+      "My husband referred me to Mr Ibrar after he successfully passed his test and based on that experience, I decided to book my lessons with him too. From day one, he was incredibly patient, calm, and professional. I started with absolutely no driving experience, and he built my confidence step by step. He never judged my mistakes; instead, he always encouraged me and explained things clearly until I understood. In a short period of time, I went from being a complete beginner to becoming a licensed driver on the first try.",
+  },
+  {
+    name: "Aditi Dusi",
+    quote:
+      "I just passed my driving test today, all thanks to Ibrar. He's a really good instructor, very calm, patient, and reassuring. He explains things clearly and helped me feel confident on the road. I couldn't have done it without his support.",
+  },
+  {
+    name: "Gabriella Sara",
+    quote:
+      "Passed my driving test today with no minors. Lessons were always clear and helpful, and he explained things in a way that actually made sense. Really easy to learn with and I'd definitely recommend him to anyone looking for an instructor.",
+  },
+  {
+    name: "Alonso Yong",
+    quote:
+      "I passed the exam in the first attempt. All thanks to excellent lessons. A fantastic instructor. He has a lot of patience and also good understanding of the exam and also driving in real life. He also has good communication and accommodated to any issue I had to schedule the sessions.",
+  },
+  {
+    name: "Noah",
+    quote:
+      "Passed first time with the help of Ibrar. He's a fantastic instructor and will prepare you well for the test. I have full confidence in recommending him to others.",
+  },
+  {
+    name: "Chukwudozie Tochukwu",
+    quote:
+      "Thank you so much IBRAR, i wouldn't have achieved this without you. You literally changed my perspective to the way I see driving and boosted my confidence.",
+  },
+  {
+    name: "Cherelle Nelson",
+    quote:
+      "Passed first time today!! Ibrar is the most calmest, honest driving instructor who becomes a friend from his happy and caring personality. Every lesson was efficient and he made sure I was learning new things every time and improving immensely in a short period of time. This journey has been made a pleasant and enjoyable experience due to Ibrar.",
   },
 ];
 
@@ -242,7 +296,9 @@ export const faqs = [
   },
   {
     q: "What happens if I need to cancel?",
-    a: policies.cancellation + " Inside 24 hours the lesson is charged in full, because the slot can rarely be refilled at short notice.",
+    a:
+      policies.cancellation +
+      " Inside 24 hours the lesson is charged in full, because the slot can rarely be refilled at short notice.",
   },
   {
     q: "How far ahead can I book?",

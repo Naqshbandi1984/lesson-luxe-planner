@@ -16,6 +16,10 @@ dist-ssr
 .nitro
 *.local
 
+# Environment variables (Supabase keys, etc.)
+.env
+.env.*
+
 # Playwright screenshot output
 /screenshots
 

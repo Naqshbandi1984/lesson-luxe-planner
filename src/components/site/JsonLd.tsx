@@ -42,14 +42,16 @@ export function LocalBusinessJsonLd() {
         priceCurrency: "GBP",
       },
     ],
-    openingHoursSpecification: openingHours
-      .filter((h) => h.open)
-      .map((h) => ({
+    // One spec per bookable slot, not per day — the real schedule has a
+    // lunch gap and buffers between lessons, not one continuous block.
+    openingHoursSpecification: openingHours.flatMap((h) =>
+      h.slots.map((s) => ({
         "@type": "OpeningHoursSpecification",
         dayOfWeek: `https://schema.org/${h.label}`,
-        opens: h.open,
-        closes: h.close,
+        opens: s.start,
+        closes: s.end,
       })),
+    ),
   };
 
   return (

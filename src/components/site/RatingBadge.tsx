@@ -2,11 +2,20 @@ import { Star } from "lucide-react";
 import { site } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function RatingBadge({ className }: { className?: string }) {
+export function RatingBadge({
+  className,
+  tone = "light",
+}: {
+  className?: string;
+  tone?: "light" | "dark";
+}) {
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm",
+        "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
+        tone === "dark"
+          ? "border-ink-foreground/20 bg-ink-foreground/10 text-ink-foreground"
+          : "border-border bg-card",
         className,
       )}
     >
@@ -16,7 +25,9 @@ export function RatingBadge({ className }: { className?: string }) {
         ))}
       </span>
       <span className="font-semibold">{site.rating}</span>
-      <span className="text-muted-foreground">from {site.reviewCount} reviews</span>
+      <span className={tone === "dark" ? "text-ink-foreground/65" : "text-muted-foreground"}>
+        from {site.reviewCount} reviews
+      </span>
     </div>
   );
 }

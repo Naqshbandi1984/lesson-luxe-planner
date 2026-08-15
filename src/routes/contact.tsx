@@ -63,10 +63,12 @@ function Contact() {
           <h2 className="font-display text-2xl font-bold">Hours</h2>
           <ul className="mt-4 divide-y divide-border rounded-xl border border-border bg-card">
             {openingHours.map((h) => (
-              <li key={h.label} className="flex justify-between px-5 py-3">
-                <span>{h.label}</span>
-                <span className="text-muted-foreground">
-                  {h.open ? `${h.open}–${h.close} (last booking ${h.lastBooking})` : "Closed"}
+              <li key={h.label} className="flex flex-col gap-1 px-5 py-3 sm:flex-row sm:items-baseline sm:justify-between">
+                <span className="font-medium">{h.label}</span>
+                <span className="text-sm text-muted-foreground">
+                  {h.slots.length > 0
+                    ? h.slots.map((s) => `${s.start}–${s.end}`).join(", ")
+                    : "Closed"}
                 </span>
               </li>
             ))}

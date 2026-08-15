@@ -44,6 +44,12 @@
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
   --color-sand: var(--sand);
+  --color-hp-ink: var(--hp-ink);
+  --color-hp-ink-foreground: var(--hp-ink-foreground);
+  --color-hp-accent: var(--hp-accent);
+  --color-hp-accent-foreground: var(--hp-accent-foreground);
+  --color-hp-paper: var(--hp-paper);
+  --color-hp-paper-foreground: var(--hp-paper-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-chart-1: var(--chart-1);
@@ -167,4 +173,61 @@
 
 @utility text-balance-tight {
   text-wrap: balance;
+}
+
+/*
+ * Fallback motion for the hero background when no video is supplied: a
+ * slow, barely-there zoom/pan so the image doesn't sit completely still.
+ * Skipped entirely for users who prefer reduced motion.
+ */
+@keyframes hero-ken-burns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  100% {
+    transform: scale(1.08) translate(-1%, -1%);
+  }
+}
+
+@utility animate-hero-ken-burns {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: hero-ken-burns 22s ease-in-out infinite alternate;
+  }
+}
+
+/*
+ * Continuous horizontal scroll for the reviews marquee. The track renders
+ * its children twice back to back and scrolls exactly one copy's width, so
+ * the loop point is seamless. Only used behind a motion-safe: wrapper (see
+ * TestimonialMarquee) — reduced-motion users get a static grid instead, so
+ * this animation itself doesn't need its own @media guard.
+ */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee-scroll 50s linear infinite;
+}
+
+/*
+ * Fresh homepage palette — deliberately separate identifiers from the
+ * original --ink/--accent/--sand/--card system above, so the new homepage
+ * (and the global Header/Footer) can be restyled without changing what
+ * those existing tokens render as anywhere else on the site. Near-black +
+ * vivid emerald + off-white; values computed and contrast-checked, not
+ * derived from the old palette.
+ */
+:root {
+  --hp-ink: oklch(0.15 0.015 155);
+  --hp-ink-foreground: var(--hp-paper);
+  --hp-accent: oklch(0.62 0.17 150);
+  --hp-accent-foreground: var(--hp-ink);
+  --hp-paper: oklch(0.975 0.006 95);
+  --hp-paper-foreground: var(--hp-ink);
 }

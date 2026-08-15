@@ -1,4 +1,5 @@
-import { BOOKING_WINDOW_DAYS, LESSON_MINUTES, openingHours } from "./site";
+import { BOOKING_WINDOW_DAYS, openingHours } from "./site";
+import { supabase } from "./supabase";
 
 export type Slot = {
   /** ISO date, e.g. 2026-08-12 */
@@ -19,35 +20,83 @@ export type BookableDay = {
   slots: Slot[];
 };
 
-function toMinutes(time: string) {
-  const [h, m] = time.split(":").map(Number);
-  return (h ?? 0) * 60 + (m ?? 0);
-}
-
-function toTime(minutes: number) {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
-}
-
 function isoDate(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-/**
- * Deterministic pseudo-availability so the UI shows a realistic mix of taken
- * and free slots without a backend. Replace with Supabase availability once
- * the existing database is connected.
- */
-function mockAvailable(date: string, start: string) {
-  let hash = 0;
-  const key = `${date}${start}`;
-  for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) % 997;
-  return hash % 10 > 2;
+/** Trims a Postgres `time` value ("11:30:00") down to "HH:MM" for comparison against generated slots. */
+function toHHMM(time: string) {
+  return time.slice(0, 5);
 }
 
-/** Builds the rolling booking window starting from `from` (defaults to today). */
-export function getBookableDays(from: Date = new Date()): BookableDay[] {
+export type AvailabilityException = {
+  date: string;
+  start_time: string | null;
+  end_time: string | null;
+};
+
+type TakenSlot = {
+  date: string;
+  start_time: string;
+  end_time: string;
+};
+
+function isBlocked(date: string, start: string, end: string, exceptions: AvailabilityException[]) {
+  return exceptions.some((ex) => {
+    if (ex.date !== date) return false;
+    const exStart = ex.start_time ? toHHMM(ex.start_time) : null;
+    const exEnd = ex.end_time ? toHHMM(ex.end_time) : null;
+    // Null start+end together means closed all day; otherwise standard interval overlap.
+    return (exStart === null || exStart < end) && (exEnd === null || exEnd > start);
+  });
+}
+
+/** The [firstDate, lastDate] (inclusive, YYYY-MM-DD) of the rolling booking window starting from `from`. */
+export function bookingWindowRange(from: Date = new Date()): {
+  firstDate: string;
+  lastDate: string;
+} {
+  const firstDate = isoDate(from);
+  const lastDate = isoDate(
+    new Date(from.getFullYear(), from.getMonth(), from.getDate() + BOOKING_WINDOW_DAYS - 1),
+  );
+  return { firstDate, lastDate };
+}
+
+/**
+ * Builds the rolling booking window starting from `from` (defaults to
+ * today), using real availability/bookings from Supabase, plus any extra
+ * busy blocks the caller passes in (e.g. real Google Calendar events) —
+ * merged in with exactly the same overlap rules as manual exceptions, so a
+ * slot is only ever offered as available when nothing blocks it anywhere.
+ */
+export async function getBookableDays(
+  from: Date = new Date(),
+  extraExceptions: AvailabilityException[] = [],
+): Promise<BookableDay[]> {
+  const { firstDate, lastDate } = bookingWindowRange(from);
+
+  const [{ data: exceptions, error: availabilityError }, { data: taken, error: takenError }] =
+    await Promise.all([
+      supabase
+        .from("availability")
+        .select("date, start_time, end_time")
+        .gte("date", firstDate)
+        .lte("date", lastDate),
+      supabase.rpc("get_taken_slots", { p_from: firstDate, p_to: lastDate }),
+    ]);
+
+  if (availabilityError) throw availabilityError;
+  if (takenError) throw takenError;
+
+  const takenByDay = new Map<string, Set<string>>();
+  for (const t of (taken ?? []) as TakenSlot[]) {
+    const set = takenByDay.get(t.date) ?? new Set<string>();
+    set.add(toHHMM(t.start_time));
+    takenByDay.set(t.date, set);
+  }
+
+  const allExceptions = [...(exceptions ?? []), ...extraExceptions];
   const days: BookableDay[] = [];
 
   for (let i = 0; i < BOOKING_WINDOW_DAYS; i++) {
@@ -55,17 +104,12 @@ export function getBookableDays(from: Date = new Date()): BookableDay[] {
     const rule = openingHours.find((h) => h.day === d.getDay());
     const date = isoDate(d);
     const slots: Slot[] = [];
+    const takenToday = takenByDay.get(date);
 
-    if (rule?.open && rule.lastBooking) {
-      const first = toMinutes(rule.open);
-      const last = toMinutes(rule.lastBooking);
-      for (let t = first; t <= last; t += LESSON_MINUTES) {
-        slots.push({
-          date,
-          start: toTime(t),
-          end: toTime(t + LESSON_MINUTES),
-          available: mockAvailable(date, toTime(t)),
-        });
+    if (rule) {
+      for (const { start, end } of rule.slots) {
+        const blocked = takenToday?.has(start) || isBlocked(date, start, end, allExceptions);
+        slots.push({ date, start, end, available: !blocked });
       }
     }
 

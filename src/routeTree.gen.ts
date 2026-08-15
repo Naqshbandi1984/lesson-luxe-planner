@@ -15,12 +15,17 @@ import { Route as BookRouteImport } from './routes/book'
 import { Route as CancellationPolicyRouteImport } from './routes/cancellation-policy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as MyLessonsRouteImport } from './routes/my-lessons'
+import { Route as PassGalleryRouteImport } from './routes/pass-gallery'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
 import { Route as AreasIndexRouteImport } from './routes/areas.index'
 import { Route as AreasSlugRouteImport } from './routes/areas.$slug'
+import { Route as BookIndexRouteImport } from './routes/book.index'
+import { Route as BookSuccessRouteImport } from './routes/book.success'
 import { Route as LessonsSlugRouteImport } from './routes/lessons.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -53,6 +58,16 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyLessonsRoute = MyLessonsRouteImport.update({
+  id: '/my-lessons',
+  path: '/my-lessons',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PassGalleryRoute = PassGalleryRouteImport.update({
+  id: '/pass-gallery',
+  path: '/pass-gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -73,6 +88,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminBookingsRoute = AdminBookingsRouteImport.update({
+  id: '/admin/bookings',
+  path: '/admin/bookings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AreasIndexRoute = AreasIndexRouteImport.update({
   id: '/areas/',
   path: '/areas/',
@@ -83,6 +103,16 @@ const AreasSlugRoute = AreasSlugRouteImport.update({
   path: '/areas/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookIndexRoute = BookIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BookRoute,
+} as any)
+const BookSuccessRoute = BookSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => BookRoute,
+} as any)
 const LessonsSlugRoute = LessonsSlugRouteImport.update({
   id: '/lessons/$slug',
   path: '/lessons/$slug',
@@ -92,48 +122,62 @@ const LessonsSlugRoute = LessonsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/book': typeof BookRoute
+  '/book': typeof BookRouteWithChildren
   '/cancellation-policy': typeof CancellationPolicyRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/my-lessons': typeof MyLessonsRoute
+  '/pass-gallery': typeof PassGalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/reviews': typeof ReviewsRoute
   '/terms': typeof TermsRoute
+  '/admin/bookings': typeof AdminBookingsRoute
   '/areas/$slug': typeof AreasSlugRoute
+  '/book/success': typeof BookSuccessRoute
   '/lessons/$slug': typeof LessonsSlugRoute
   '/areas/': typeof AreasIndexRoute
+  '/book/': typeof BookIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/book': typeof BookRoute
   '/cancellation-policy': typeof CancellationPolicyRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/my-lessons': typeof MyLessonsRoute
+  '/pass-gallery': typeof PassGalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/reviews': typeof ReviewsRoute
   '/terms': typeof TermsRoute
+  '/admin/bookings': typeof AdminBookingsRoute
   '/areas/$slug': typeof AreasSlugRoute
+  '/book/success': typeof BookSuccessRoute
   '/lessons/$slug': typeof LessonsSlugRoute
   '/areas': typeof AreasIndexRoute
+  '/book': typeof BookIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/book': typeof BookRoute
+  '/book': typeof BookRouteWithChildren
   '/cancellation-policy': typeof CancellationPolicyRoute
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
+  '/my-lessons': typeof MyLessonsRoute
+  '/pass-gallery': typeof PassGalleryRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/reviews': typeof ReviewsRoute
   '/terms': typeof TermsRoute
+  '/admin/bookings': typeof AdminBookingsRoute
   '/areas/$slug': typeof AreasSlugRoute
+  '/book/success': typeof BookSuccessRoute
   '/lessons/$slug': typeof LessonsSlugRoute
   '/areas/': typeof AreasIndexRoute
+  '/book/': typeof BookIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -144,28 +188,37 @@ export interface FileRouteTypes {
     | '/cancellation-policy'
     | '/contact'
     | '/faq'
+    | '/my-lessons'
+    | '/pass-gallery'
     | '/pricing'
     | '/privacy'
     | '/reviews'
     | '/terms'
+    | '/admin/bookings'
     | '/areas/$slug'
+    | '/book/success'
     | '/lessons/$slug'
     | '/areas/'
+    | '/book/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/book'
     | '/cancellation-policy'
     | '/contact'
     | '/faq'
+    | '/my-lessons'
+    | '/pass-gallery'
     | '/pricing'
     | '/privacy'
     | '/reviews'
     | '/terms'
+    | '/admin/bookings'
     | '/areas/$slug'
+    | '/book/success'
     | '/lessons/$slug'
     | '/areas'
+    | '/book'
   id:
     | '__root__'
     | '/'
@@ -174,26 +227,34 @@ export interface FileRouteTypes {
     | '/cancellation-policy'
     | '/contact'
     | '/faq'
+    | '/my-lessons'
+    | '/pass-gallery'
     | '/pricing'
     | '/privacy'
     | '/reviews'
     | '/terms'
+    | '/admin/bookings'
     | '/areas/$slug'
+    | '/book/success'
     | '/lessons/$slug'
     | '/areas/'
+    | '/book/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  BookRoute: typeof BookRoute
+  BookRoute: typeof BookRouteWithChildren
   CancellationPolicyRoute: typeof CancellationPolicyRoute
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
+  MyLessonsRoute: typeof MyLessonsRoute
+  PassGalleryRoute: typeof PassGalleryRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   ReviewsRoute: typeof ReviewsRoute
   TermsRoute: typeof TermsRoute
+  AdminBookingsRoute: typeof AdminBookingsRoute
   AreasSlugRoute: typeof AreasSlugRoute
   LessonsSlugRoute: typeof LessonsSlugRoute
   AreasIndexRoute: typeof AreasIndexRoute
@@ -243,6 +304,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my-lessons': {
+      id: '/my-lessons'
+      path: '/my-lessons'
+      fullPath: '/my-lessons'
+      preLoaderRoute: typeof MyLessonsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pass-gallery': {
+      id: '/pass-gallery'
+      path: '/pass-gallery'
+      fullPath: '/pass-gallery'
+      preLoaderRoute: typeof PassGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -271,6 +346,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/bookings': {
+      id: '/admin/bookings'
+      path: '/admin/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AdminBookingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/areas/': {
       id: '/areas/'
       path: '/areas'
@@ -285,6 +367,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AreasSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/book/': {
+      id: '/book/'
+      path: '/'
+      fullPath: '/book/'
+      preLoaderRoute: typeof BookIndexRouteImport
+      parentRoute: typeof BookRoute
+    }
+    '/book/success': {
+      id: '/book/success'
+      path: '/success'
+      fullPath: '/book/success'
+      preLoaderRoute: typeof BookSuccessRouteImport
+      parentRoute: typeof BookRoute
+    }
     '/lessons/$slug': {
       id: '/lessons/$slug'
       path: '/lessons/$slug'
@@ -295,17 +391,32 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BookRouteChildren {
+  BookSuccessRoute: typeof BookSuccessRoute
+  BookIndexRoute: typeof BookIndexRoute
+}
+
+const BookRouteChildren: BookRouteChildren = {
+  BookSuccessRoute: BookSuccessRoute,
+  BookIndexRoute: BookIndexRoute,
+}
+
+const BookRouteWithChildren = BookRoute._addFileChildren(BookRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  BookRoute: BookRoute,
+  BookRoute: BookRouteWithChildren,
   CancellationPolicyRoute: CancellationPolicyRoute,
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
+  MyLessonsRoute: MyLessonsRoute,
+  PassGalleryRoute: PassGalleryRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   ReviewsRoute: ReviewsRoute,
   TermsRoute: TermsRoute,
+  AdminBookingsRoute: AdminBookingsRoute,
   AreasSlugRoute: AreasSlugRoute,
   LessonsSlugRoute: LessonsSlugRoute,
   AreasIndexRoute: AreasIndexRoute,
