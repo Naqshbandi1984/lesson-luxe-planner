@@ -219,15 +219,14 @@
  * Fresh homepage palette — deliberately separate identifiers from the
  * original --ink/--accent/--sand/--card system above, so the new homepage
  * (and the global Header/Footer) can be restyled without changing what
- * those existing tokens render as anywhere else on the site. Near-black +
- * vivid emerald + off-white; values computed and contrast-checked, not
- * derived from the old palette.
+ * those existing tokens render as anywhere else on the site. Deep Midnight
+ * Navy + Champagne Gold + Warm Ivory; values computed and contrast-checked.
  */
 :root {
-  --hp-ink: oklch(0.15 0.015 155);
+  --hp-ink: oklch(0.18 0.04 250);
   --hp-ink-foreground: var(--hp-paper);
-  --hp-accent: oklch(0.62 0.17 150);
+  --hp-accent: oklch(0.76 0.11 85);
   --hp-accent-foreground: var(--hp-ink);
-  --hp-paper: oklch(0.975 0.006 95);
+  --hp-paper: oklch(0.97 0.01 70);
   --hp-paper-foreground: var(--hp-ink);
 }

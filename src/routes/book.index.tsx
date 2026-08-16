@@ -114,9 +114,6 @@ function BookPage() {
 
   const product = products.find((p) => p.id === productId)!;
 
-  // Chatbot handoff: pre-fill the lesson focus and slot once real
-  // availability has loaded, but only if the requested slot is still
-  // genuinely open — never assume the chatbot's link is still valid.
   useEffect(() => {
     if (!days) return;
     if (lessonType && lessonTypes.some((l) => l.slug === lessonType)) {
@@ -133,64 +130,89 @@ function BookPage() {
     }
   }, [days, lessonType, prefillDate, prefillTime]);
 
+  // ── Loading / error states ──────────────────────────────────────────────────
   if (isPending) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <h1 className="font-display text-4xl font-bold sm:text-5xl">Book a lesson</h1>
-        <p className="mt-4 text-lg text-muted-foreground">Loading availability…</p>
+      <div className="w-full">
+        <section className="bg-hp-ink text-hp-ink-foreground">
+          <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20">
+            <p className="text-sm font-extrabold uppercase tracking-wide text-hp-accent">Online Booking</p>
+            <h1 className="mt-4 font-display text-5xl sm:text-6xl font-black leading-[0.98] tracking-tight">
+              Book a lesson
+            </h1>
+            <p className="mt-6 text-lg text-hp-ink-foreground/70">Loading availability…</p>
+          </div>
+        </section>
       </div>
     );
   }
 
   if (isError || !days || days.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <h1 className="font-display text-4xl font-bold sm:text-5xl">Book a lesson</h1>
-        <p className="mt-4 max-w-xl text-lg text-muted-foreground">
-          Availability didn't load. Call {site.phone} or message on WhatsApp and we'll sort out a
-          time directly.
-        </p>
+      <div className="w-full">
+        <section className="bg-hp-ink text-hp-ink-foreground">
+          <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20">
+            <p className="text-sm font-extrabold uppercase tracking-wide text-hp-accent">Online Booking</p>
+            <h1 className="mt-4 font-display text-5xl sm:text-6xl font-black leading-[0.98] tracking-tight">
+              Book a lesson
+            </h1>
+            <p className="mt-6 max-w-xl text-lg text-hp-ink-foreground/75">
+              Availability didn't load. Call{" "}
+              <a href={site.phoneHref} className="font-bold text-hp-accent hover:underline">
+                {site.phone}
+              </a>{" "}
+              or message on WhatsApp and we'll sort out a time directly.
+            </p>
+          </div>
+        </section>
       </div>
     );
   }
 
+  // ── Bank transfer confirmation screen ───────────────────────────────────────
   if (phase === "bank-transfer-confirmation" && bankTransferReference) {
     return (
-      <div className="mx-auto max-w-xl px-4 py-14 text-center sm:px-6">
-        <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent/15">
-          <Landmark className="h-7 w-7 text-accent" aria-hidden="true" />
-        </div>
-        <h1 className="mt-6 font-display text-3xl font-bold sm:text-4xl">
-          Almost there — pay by bank transfer
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Transfer the amount below using the reference shown, and we'll confirm your booking once
-          it lands.
-        </p>
-
-        <div className="mt-8 space-y-3 rounded-2xl border border-border bg-card p-6 text-left shadow-card">
-          <Row term="Account name" desc={bankTransfer.accountName} />
-          <Row term="Sort code" desc={bankTransfer.sortCode} />
-          <Row term="Account number" desc={bankTransfer.accountNumber} />
-          <Row term="Amount" desc={gbp(product.price)} />
-          <div className="border-t border-border pt-3">
-            <p className="text-sm text-muted-foreground">Payment reference — use this exactly</p>
-            <p className="mt-1 break-all font-display text-lg font-bold">{bankTransferReference}</p>
+      <div className="w-full">
+        <section className="bg-hp-ink text-hp-ink-foreground">
+          <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20 text-center">
+            <div className="mx-auto grid h-14 w-14 place-items-center bg-hp-accent/20">
+              <Landmark className="h-7 w-7 text-hp-accent" aria-hidden="true" />
+            </div>
+            <h1 className="mt-6 font-display text-4xl sm:text-5xl font-black leading-[0.98] tracking-tight">
+              Almost there — pay by bank transfer
+            </h1>
+            <p className="mt-4 text-lg text-hp-ink-foreground/75 max-w-xl mx-auto">
+              Transfer the amount below using the reference shown, and we'll confirm your booking once it lands.
+            </p>
           </div>
-        </div>
-
-        <p className="mt-6 rounded-lg bg-destructive/10 p-4 text-sm font-medium text-destructive">
-          This slot isn't guaranteed yet — it stays open to other customers, including anyone paying
-          instantly by card, until we've received and confirmed your transfer. Please pay as soon as
-          you can.
-        </p>
-
-        <Link
-          to="/"
-          className="mt-8 inline-block rounded-lg bg-accent px-6 py-3.5 font-semibold text-accent-foreground"
-        >
-          Back to home
-        </Link>
+        </section>
+        <section className="bg-hp-paper text-hp-paper-foreground">
+          <div className="mx-auto max-w-xl px-5 py-16 sm:px-8">
+            <div className="border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 space-y-4">
+              <Row term="Account name" desc={bankTransfer.accountName} />
+              <Row term="Sort code" desc={bankTransfer.sortCode} />
+              <Row term="Account number" desc={bankTransfer.accountNumber} />
+              <Row term="Amount" desc={gbp(product.price)} />
+              <div className="border-t border-hp-paper-foreground/10 pt-4">
+                <p className="text-sm font-bold uppercase tracking-wide text-hp-paper-foreground/60">
+                  Payment reference — use this exactly
+                </p>
+                <p className="mt-1 break-all font-display text-xl font-black text-hp-ink">
+                  {bankTransferReference}
+                </p>
+              </div>
+            </div>
+            <p className="mt-6 border-l-4 border-destructive bg-destructive/5 p-4 text-sm font-medium text-destructive">
+              This slot isn't guaranteed yet — it stays open to other customers until we've received and confirmed your transfer. Please pay as soon as you can.
+            </p>
+            <Link
+              to="/"
+              className="mt-8 inline-block bg-hp-accent px-8 py-4 text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-transform hover:-translate-y-0.5"
+            >
+              Back to home
+            </Link>
+          </div>
+        </section>
       </div>
     );
   }
@@ -277,300 +299,287 @@ function BookPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-      <h1 className="font-display text-4xl font-bold sm:text-5xl">Book a lesson</h1>
-      <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-        Bookings open on a rolling {BOOKING_WINDOW_DAYS}-day window. Pick what you need, choose a
-        slot, then confirm.
-      </p>
-
-      {cancelled && (
-        <p className="mt-6 max-w-2xl rounded-lg border border-border bg-sand p-4 text-sm text-muted-foreground">
-          Checkout was cancelled — nothing was charged and your slot wasn't held. Pick up where you
-          left off whenever you're ready.
-        </p>
-      )}
-
-      <div className="mt-10 grid gap-8 lg:grid-cols-[1.4fr_0.9fr]">
-        <div className="space-y-8">
-          <section
-            aria-hidden={phase === "payment"}
-            className={phase === "payment" ? "pointer-events-none opacity-40" : undefined}
-          >
-            <div className="space-y-8">
-              <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
-                <h2 className="font-display text-xl font-semibold">1. What do you need?</h2>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {products.map((p) => {
-                    const selected = p.id === productId;
-                    return (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClick={() => setProductId(p.id)}
-                        aria-pressed={selected}
-                        className={`rounded-xl border p-4 text-left transition-shadow ${
-                          selected
-                            ? "border-primary bg-primary/5 shadow-card"
-                            : "border-border hover:shadow-card"
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <span className="font-semibold">{p.name}</span>
-                          <span className="font-display font-bold">{gbp(p.price)}</span>
-                        </div>
-                        <p className="mt-1 text-sm text-muted-foreground">{p.detail}</p>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <fieldset className="mt-6">
-                  <legend className="text-sm font-semibold">What are you working on?</legend>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {lessonTypes.map((l) => (
-                      <button
-                        key={l.slug}
-                        type="button"
-                        onClick={() => setLessonFocus(l.slug)}
-                        className={`rounded-lg border px-3 py-2 text-sm font-medium ${
-                          lessonFocus === l.slug
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-card"
-                        }`}
-                      >
-                        {l.short}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
-              </section>
-
-              <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
-                <h2 className="font-display text-xl font-semibold">2. Pick a slot</h2>
-                <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-7">
-                  {days.map((d, i) => {
-                    const selected = i === effectiveDayIndex;
-                    return (
-                      <button
-                        key={d.date}
-                        type="button"
-                        disabled={d.closed}
-                        onClick={() => {
-                          setDayIndex(i);
-                          setSlot(null);
-                        }}
-                        className={`rounded-xl border px-2 py-3 text-center transition-colors ${
-                          selected
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-border bg-card hover:bg-secondary"
-                        } ${d.closed ? "cursor-not-allowed opacity-40" : ""}`}
-                      >
-                        <span className="block text-xs uppercase">{d.weekday}</span>
-                        <span className="block font-display text-lg font-bold">{d.dayNumber}</span>
-                        <span className="block text-xs">{d.closed ? "Closed" : d.month}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-6">
-                  {day.closed ? (
-                    <p className="text-muted-foreground">
-                      Closed on {formatLongDate(day.date)} — Fridays are a non-teaching day.
-                    </p>
-                  ) : (
-                    <div className="grid gap-2 sm:grid-cols-3">
-                      {day.slots.map((s) => {
-                        const id = `${s.date}T${s.start}`;
-                        const selected = slot === id;
-                        return (
-                          <button
-                            key={id}
-                            type="button"
-                            disabled={!s.available}
-                            onClick={() => setSlot(id)}
-                            className={`rounded-lg border px-3 py-3 text-sm font-semibold transition-colors ${
-                              selected
-                                ? "border-primary bg-primary text-primary-foreground"
-                                : "border-border bg-card hover:bg-secondary"
-                            } ${!s.available ? "cursor-not-allowed opacity-40 line-through" : ""}`}
-                          >
-                            {s.start}–{s.end}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              </section>
-
-              <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
-                <h2 className="font-display text-xl font-semibold">3. Your details</h2>
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <Field
-                    label="Full name"
-                    id="name"
-                    autoComplete="name"
-                    value={name}
-                    onChange={setName}
-                  />
-                  <Field
-                    label="Mobile number"
-                    id="tel"
-                    type="tel"
-                    autoComplete="tel"
-                    value={phone}
-                    onChange={setPhone}
-                  />
-                  <Field
-                    label="Email"
-                    id="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={setEmail}
-                  />
-                  <Field
-                    label="Pick-up postcode"
-                    id="postcode"
-                    autoComplete="postal-code"
-                    value={postcode}
-                    onChange={setPostcode}
-                  />
-                </div>
-                <label htmlFor="notes" className="mt-4 block text-sm font-medium">
-                  Anything I should know?
-                </label>
-                <textarea
-                  id="notes"
-                  rows={3}
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
-                  placeholder="Previous experience, test date already booked, access notes…"
-                />
-              </section>
-            </div>
-          </section>
-        </div>
-
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
-            <h2 className="font-display text-xl font-semibold">Your booking</h2>
-            <dl className="mt-5 space-y-3 text-sm">
-              <Row term="Booking" desc={product.name} />
-              <Row
-                term="Focus"
-                desc={lessonTypes.find((l) => l.slug === lessonFocus)?.short ?? "—"}
-              />
-              <Row
-                term="Date"
-                desc={slot ? formatLongDate(slot.slice(0, 10)) : "No slot selected yet"}
-              />
-              <Row term="Time" desc={slot ? `${slot.slice(11)} for 1hr 30` : "—"} />
-            </dl>
-            <p className="mt-5 flex items-baseline justify-between border-t border-border pt-4">
-              <span className="font-semibold">Total due</span>
-              <span className="font-display text-3xl font-bold">{gbp(product.price)}</span>
+    <div className="w-full">
+      {/* Hero header */}
+      <section className="bg-hp-ink text-hp-ink-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 sm:py-16">
+          <p className="text-sm font-extrabold uppercase tracking-wide text-hp-accent">Online Booking</p>
+          <h1 className="mt-4 font-display text-5xl sm:text-6xl font-black leading-[0.98] tracking-tight">
+            Book a lesson
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-hp-ink-foreground/75">
+            Bookings open on a rolling {BOOKING_WINDOW_DAYS}-day window. Pick what you need, choose a slot, then confirm.
+          </p>
+          {cancelled && (
+            <p className="mt-6 max-w-2xl border-l-4 border-hp-accent bg-hp-ink-foreground/5 px-4 py-3 text-sm text-hp-ink-foreground/75">
+              Checkout was cancelled — nothing was charged and your slot wasn't held. Pick up where you left off whenever you're ready.
             </p>
+          )}
+        </div>
+      </section>
 
-            {phase === "form" ? (
-              <>
-                <button
-                  type="button"
-                  disabled={!slot}
-                  onClick={handleCompleteBooking}
-                  className="mt-5 w-full rounded-lg bg-accent px-5 py-3.5 font-semibold text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Complete booking
-                </button>
-                {formError && <p className="mt-2 text-sm text-destructive">{formError}</p>}
+      {/* Main booking form */}
+      <section className="bg-hp-paper text-hp-paper-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-14 sm:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1.4fr_0.9fr]">
+            {/* Left: form steps */}
+            <div
+              aria-hidden={phase === "payment"}
+              className={phase === "payment" ? "pointer-events-none opacity-40" : undefined}
+            >
+              <div className="space-y-8">
+                {/* Step 1: What do you need */}
+                <section className="border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8">
+                  <h2 className="font-display text-xl font-bold text-hp-ink">1. What do you need?</h2>
+                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {products.map((p) => {
+                      const selected = p.id === productId;
+                      return (
+                        <button
+                          key={p.id}
+                          type="button"
+                          onClick={() => setProductId(p.id)}
+                          aria-pressed={selected}
+                          className={`border p-4 text-left transition-all ${
+                            selected
+                              ? "border-hp-ink bg-hp-ink text-hp-ink-foreground"
+                              : "border-hp-paper-foreground/20 hover:border-hp-accent"
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <span className="font-bold">{p.name}</span>
+                            <span className="font-display font-black text-hp-accent">{gbp(p.price)}</span>
+                          </div>
+                          <p className={`mt-1 text-sm ${selected ? "text-hp-ink-foreground/70" : "text-hp-paper-foreground/60"}`}>
+                            {p.detail}
+                          </p>
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                <p className="mt-3 flex gap-2 rounded-lg bg-sand p-3 text-xs text-muted-foreground">
-                  <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-                  Nothing is charged or held yet — the next step is choosing how to pay.
-                </p>
-              </>
-            ) : (
-              <div className="mt-5 space-y-3">
-                <button
-                  type="button"
-                  onClick={handlePayByCard}
-                  disabled={creatingSession}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3.5 font-semibold text-accent-foreground disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {creatingSession ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                      Starting checkout…
-                    </>
-                  ) : (
-                    "Pay by card (Stripe) — recommended"
-                  )}
-                </button>
+                  <fieldset className="mt-6">
+                    <legend className="text-sm font-bold uppercase tracking-wide text-hp-paper-foreground/60">
+                      What are you working on?
+                    </legend>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {lessonTypes.map((l) => (
+                        <button
+                          key={l.slug}
+                          type="button"
+                          onClick={() => setLessonFocus(l.slug)}
+                          className={`border px-4 py-2 text-sm font-bold transition-all ${
+                            lessonFocus === l.slug
+                              ? "border-hp-ink bg-hp-ink text-hp-ink-foreground"
+                              : "border-hp-paper-foreground/20 hover:border-hp-accent"
+                          }`}
+                        >
+                          {l.short}
+                        </button>
+                      ))}
+                    </div>
+                  </fieldset>
+                </section>
 
-                <button
-                  type="button"
-                  onClick={handlePayByBankTransfer}
-                  disabled={creatingBankTransfer}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-border px-5 py-3.5 font-semibold disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {creatingBankTransfer ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                      Setting up your reference…
-                    </>
-                  ) : (
-                    "Pay by bank transfer"
-                  )}
-                </button>
-                <p className="text-xs text-muted-foreground">
-                  Bank transfer isn't instant — your slot stays open to other customers until we
-                  confirm your payment's landed.
-                </p>
+                {/* Step 2: Pick a slot */}
+                <section className="border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8">
+                  <h2 className="font-display text-xl font-bold text-hp-ink">2. Pick a slot</h2>
+                  <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-7">
+                    {days.map((d, i) => {
+                      const selected = i === effectiveDayIndex;
+                      return (
+                        <button
+                          key={d.date}
+                          type="button"
+                          disabled={d.closed}
+                          onClick={() => {
+                            setDayIndex(i);
+                            setSlot(null);
+                          }}
+                          className={`border px-2 py-3 text-center text-sm font-bold transition-all ${
+                            selected
+                              ? "border-hp-ink bg-hp-ink text-hp-ink-foreground"
+                              : "border-hp-paper-foreground/20 hover:border-hp-accent"
+                          } ${d.closed ? "cursor-not-allowed opacity-40" : ""}`}
+                        >
+                          <span className="block text-xs uppercase">{d.weekday}</span>
+                          <span className="block font-display text-lg font-black">{d.dayNumber}</span>
+                          <span className="block text-xs">{d.closed ? "Closed" : d.month}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                {checkoutError && <p className="text-sm text-destructive">{checkoutError}</p>}
-                {bankTransferError && (
-                  <p className="text-sm text-destructive">{bankTransferError}</p>
+                  <div className="mt-6">
+                    {day.closed ? (
+                      <p className="text-hp-paper-foreground/70">
+                        Closed on {formatLongDate(day.date)} — Fridays are a non-teaching day.
+                      </p>
+                    ) : (
+                      <div className="grid gap-2 sm:grid-cols-3">
+                        {day.slots.map((s) => {
+                          const id = `${s.date}T${s.start}`;
+                          const selected = slot === id;
+                          return (
+                            <button
+                              key={id}
+                              type="button"
+                              disabled={!s.available}
+                              onClick={() => setSlot(id)}
+                              className={`border px-3 py-3 text-sm font-bold transition-all ${
+                                selected
+                                  ? "border-hp-ink bg-hp-ink text-hp-ink-foreground"
+                                  : "border-hp-paper-foreground/20 hover:border-hp-accent"
+                              } ${!s.available ? "cursor-not-allowed opacity-40 line-through" : ""}`}
+                            >
+                              {s.start}–{s.end}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </section>
+
+                {/* Step 3: Your details */}
+                <section className="border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8">
+                  <h2 className="font-display text-xl font-bold text-hp-ink">3. Your details</h2>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                    <Field label="Full name" id="name" autoComplete="name" value={name} onChange={setName} />
+                    <Field label="Mobile number" id="tel" type="tel" autoComplete="tel" value={phone} onChange={setPhone} />
+                    <Field label="Email" id="email" type="email" autoComplete="email" value={email} onChange={setEmail} />
+                    <Field label="Pick-up postcode" id="postcode" autoComplete="postal-code" value={postcode} onChange={setPostcode} />
+                  </div>
+                  <label htmlFor="notes" className="mt-4 block text-sm font-bold text-hp-paper-foreground/70">
+                    Anything I should know?
+                  </label>
+                  <textarea
+                    id="notes"
+                    rows={3}
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="mt-1.5 w-full border border-hp-paper-foreground/20 bg-transparent px-3 py-2 text-sm outline-none focus:border-hp-accent focus:ring-1 focus:ring-hp-accent"
+                    placeholder="Previous experience, test date already booked, access notes…"
+                  />
+                </section>
+              </div>
+            </div>
+
+            {/* Right: Booking summary aside */}
+            <aside className="lg:sticky lg:top-24 lg:self-start">
+              <div className="border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8">
+                <h2 className="font-display text-xl font-bold text-hp-ink">Your booking</h2>
+                <dl className="mt-5 space-y-3 text-sm border-b border-hp-paper-foreground/10 pb-5">
+                  <Row term="Booking" desc={product.name} />
+                  <Row
+                    term="Focus"
+                    desc={lessonTypes.find((l) => l.slug === lessonFocus)?.short ?? "—"}
+                  />
+                  <Row
+                    term="Date"
+                    desc={slot ? formatLongDate(slot.slice(0, 10)) : "No slot selected yet"}
+                  />
+                  <Row term="Time" desc={slot ? `${slot.slice(11)} for 1hr 30` : "—"} />
+                </dl>
+                <div className="mt-5 flex items-baseline justify-between gap-4">
+                  <span className="font-bold text-hp-paper-foreground/70">Total due</span>
+                  <span className="font-display text-3xl font-black text-hp-ink">{gbp(product.price)}</span>
+                </div>
+
+                {phase === "form" ? (
+                  <>
+                    <button
+                      type="button"
+                      disabled={!slot}
+                      onClick={handleCompleteBooking}
+                      className="mt-6 w-full bg-hp-accent py-4 text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      Complete booking
+                    </button>
+                    {formError && <p className="mt-2 text-sm text-destructive">{formError}</p>}
+                    <p className="mt-4 flex gap-2 bg-hp-paper-foreground/5 p-3 text-xs text-hp-paper-foreground/60">
+                      <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                      Nothing is charged or held yet — the next step is choosing how to pay.
+                    </p>
+                  </>
+                ) : (
+                  <div className="mt-5 space-y-3">
+                    <button
+                      type="button"
+                      onClick={handlePayByCard}
+                      disabled={creatingSession}
+                      className="flex w-full items-center justify-center gap-2 bg-hp-accent py-4 text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground disabled:cursor-not-allowed disabled:opacity-70 transition-transform hover:-translate-y-0.5"
+                    >
+                      {creatingSession ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                          Starting checkout…
+                        </>
+                      ) : (
+                        "Pay by card (Stripe) — recommended"
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handlePayByBankTransfer}
+                      disabled={creatingBankTransfer}
+                      className="flex w-full items-center justify-center gap-2 border-2 border-hp-paper-foreground/20 bg-transparent py-4 text-sm font-bold uppercase tracking-wide disabled:cursor-not-allowed disabled:opacity-70 hover:border-hp-accent"
+                    >
+                      {creatingBankTransfer ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                          Setting up your reference…
+                        </>
+                      ) : (
+                        "Pay by bank transfer"
+                      )}
+                    </button>
+                    <p className="text-xs text-hp-paper-foreground/60">
+                      Bank transfer isn't instant — your slot stays open to other customers until we confirm your payment's landed.
+                    </p>
+
+                    {checkoutError && <p className="text-sm text-destructive">{checkoutError}</p>}
+                    {bankTransferError && <p className="text-sm text-destructive">{bankTransferError}</p>}
+
+                    <button
+                      type="button"
+                      onClick={() => setPhase("form")}
+                      disabled={creatingSession}
+                      className="w-full text-center text-sm font-bold text-hp-ink hover:underline disabled:opacity-50"
+                    >
+                      ← Back to booking details
+                    </button>
+                  </div>
                 )}
 
-                <button
-                  type="button"
-                  onClick={() => setPhase("form")}
-                  disabled={creatingSession}
-                  className="w-full text-center text-sm font-semibold text-primary hover:underline disabled:opacity-50"
-                >
-                  ← Back to booking details
-                </button>
+                <ul className="mt-6 space-y-2 text-xs text-hp-paper-foreground/60">
+                  <li className="flex gap-2">
+                    <Check className="h-4 w-4 shrink-0 text-hp-accent" aria-hidden="true" />
+                    {policies.payment}
+                  </li>
+                  <li className="flex gap-2">
+                    <Check className="h-4 w-4 shrink-0 text-hp-accent" aria-hidden="true" />
+                    {policies.cancellation}
+                  </li>
+                </ul>
+
+                <p className="mt-5 text-xs text-hp-paper-foreground/60">
+                  Prefer to talk first?{" "}
+                  <a href={site.phoneHref} className="font-bold text-hp-ink hover:underline">
+                    {site.phone}
+                  </a>{" "}
+                  or see the{" "}
+                  <Link to="/faq" className="font-bold text-hp-ink hover:underline">
+                    FAQ
+                  </Link>
+                  .
+                </p>
               </div>
-            )}
-
-            <ul className="mt-5 space-y-2 text-xs text-muted-foreground">
-              <li className="flex gap-2">
-                <Check className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                {policies.payment}
-              </li>
-              <li className="flex gap-2">
-                <Check className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                {policies.cancellation}
-              </li>
-            </ul>
-
-            <p className="mt-5 text-xs text-muted-foreground">
-              Prefer to talk first?{" "}
-              <a href={site.phoneHref} className="font-semibold text-primary hover:underline">
-                {site.phone}
-              </a>{" "}
-              or see the{" "}
-              <Link to="/faq" className="font-semibold text-primary hover:underline">
-                FAQ
-              </Link>
-              .
-            </p>
+            </aside>
           </div>
-        </aside>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -592,7 +601,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium">
+      <label htmlFor={id} className="block text-sm font-bold text-hp-paper-foreground/70">
         {label}
       </label>
       <input
@@ -601,7 +610,7 @@ function Field({
         autoComplete={autoComplete}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1.5 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+        className="mt-1.5 w-full border border-hp-paper-foreground/20 bg-transparent px-3 py-2.5 text-sm outline-none focus:border-hp-accent focus:ring-1 focus:ring-hp-accent"
       />
     </div>
   );
@@ -610,8 +619,8 @@ function Field({
 function Row({ term, desc }: { term: string; desc: string }) {
   return (
     <div className="flex justify-between gap-4">
-      <dt className="text-muted-foreground">{term}</dt>
-      <dd className="text-right font-medium">{desc}</dd>
+      <dt className="text-hp-paper-foreground/60">{term}</dt>
+      <dd className="text-right font-bold text-hp-ink">{desc}</dd>
     </div>
   );
 }

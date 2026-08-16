@@ -23,70 +23,145 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-      <h1 className="font-display text-4xl font-bold sm:text-5xl">Contact</h1>
-      <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-        Quickest answer is usually WhatsApp. Happy to talk things through before you book anything.
-      </p>
-
-      <div className="mt-10 grid gap-5 sm:grid-cols-3">
-        <a
-          href={site.phoneHref}
-          className="rounded-2xl border border-border bg-card p-6 hover:shadow-card"
-        >
-          <Phone className="h-5 w-5 text-primary" aria-hidden="true" />
-          <h2 className="mt-3 font-display text-lg font-semibold">Call</h2>
-          <p className="mt-1 text-muted-foreground">{site.phone}</p>
-        </a>
-        <a
-          href={site.whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-2xl border border-border bg-card p-6 hover:shadow-card"
-        >
-          <MessageCircle className="h-5 w-5 text-success" aria-hidden="true" />
-          <h2 className="mt-3 font-display text-lg font-semibold">WhatsApp</h2>
-          <p className="mt-1 text-muted-foreground">Message any time</p>
-        </a>
-        <a
-          href={site.emailHref}
-          className="rounded-2xl border border-border bg-card p-6 hover:shadow-card"
-        >
-          <Mail className="h-5 w-5 text-primary" aria-hidden="true" />
-          <h2 className="mt-3 font-display text-lg font-semibold">Email</h2>
-          <p className="mt-1 break-words text-muted-foreground">{site.email}</p>
-        </a>
-      </div>
-
-      <div className="mt-12 grid gap-8 md:grid-cols-2">
-        <section>
-          <h2 className="font-display text-2xl font-bold">Hours</h2>
-          <ul className="mt-4 divide-y divide-border rounded-xl border border-border bg-card">
-            {openingHours.map((h) => (
-              <li key={h.label} className="flex flex-col gap-1 px-5 py-3 sm:flex-row sm:items-baseline sm:justify-between">
-                <span className="font-medium">{h.label}</span>
-                <span className="text-sm text-muted-foreground">
-                  {h.slots.length > 0
-                    ? h.slots.map((s) => `${s.start}–${s.end}`).join(", ")
-                    : "Closed"}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section>
-          <h2 className="font-display text-2xl font-bold">Areas covered</h2>
-          <p className="mt-3 text-muted-foreground">
-            {areas.map((a) => a.postcode).join(", ")} — door-to-door pick up across Reading.
+    <div className="w-full">
+      {/* Section 1: Hero */}
+      <section className="bg-hp-ink text-hp-ink-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 sm:py-20 lg:py-24">
+          <p className="text-sm font-extrabold uppercase tracking-wide text-hp-accent">
+            Get in touch
           </p>
-          <Link
-            to="/book"
-            className="mt-6 inline-block rounded-lg bg-accent px-6 py-3.5 font-semibold text-accent-foreground"
-          >
-            Book a lesson
-          </Link>
-        </section>
-      </div>
+          <h1 className="mt-4 font-display text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight">
+            Contact us.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg text-hp-ink-foreground/75 sm:text-xl leading-relaxed">
+            Quickest answer is usually WhatsApp. Happy to talk things through before you book anything.
+          </p>
+        </div>
+      </section>
+
+      {/* Section 2: Contact Options Grid */}
+      <section className="bg-hp-paper text-hp-paper-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8">
+          <div className="grid gap-6 sm:grid-cols-3">
+            <a
+              href={site.phoneHref}
+              className="group border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
+            >
+              <Phone className="h-6 w-6 text-hp-accent" aria-hidden="true" />
+              <h2 className="mt-6 font-display text-2xl font-bold text-hp-ink">Call</h2>
+              <p className="mt-2 text-base text-hp-paper-foreground/75 font-semibold">
+                {site.phone}
+              </p>
+              <span className="mt-4 inline-block text-xs font-bold uppercase tracking-wide text-hp-accent group-hover:underline">
+                Call Ibrar directly →
+              </span>
+            </a>
+
+            <a
+              href={site.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
+            >
+              <MessageCircle className="h-6 w-6 text-hp-accent" aria-hidden="true" />
+              <h2 className="mt-6 font-display text-2xl font-bold text-hp-ink">WhatsApp</h2>
+              <p className="mt-2 text-base text-hp-paper-foreground/75 font-semibold">
+                Message any time
+              </p>
+              <span className="mt-4 inline-block text-xs font-bold uppercase tracking-wide text-hp-accent group-hover:underline">
+                Send a message →
+              </span>
+            </a>
+
+            <a
+              href={site.emailHref}
+              className="group border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
+            >
+              <Mail className="h-6 w-6 text-hp-accent" aria-hidden="true" />
+              <h2 className="mt-6 font-display text-2xl font-bold text-hp-ink">Email</h2>
+              <p className="mt-2 text-base text-hp-paper-foreground/75 font-semibold break-words">
+                {site.email}
+              </p>
+              <span className="mt-4 inline-block text-xs font-bold uppercase tracking-wide text-hp-accent group-hover:underline">
+                Send an email →
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3: Hours & Coverage */}
+      <section className="bg-hp-ink text-hp-ink-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8">
+          <div className="grid gap-12 md:grid-cols-2 items-start">
+            <div>
+              <h2 className="font-display text-3xl font-bold tracking-tight">Hours</h2>
+              <ul className="mt-6 border border-hp-ink-foreground/10 divide-y divide-hp-ink-foreground/10 bg-hp-ink-foreground/[0.01]">
+                {openingHours.map((h) => (
+                  <li
+                    key={h.label}
+                    className="flex flex-col gap-1 px-6 py-4 sm:flex-row sm:items-baseline sm:justify-between text-base"
+                  >
+                    <span className="font-bold text-hp-ink-foreground">{h.label}</span>
+                    <span className="text-sm font-semibold text-hp-ink-foreground/70">
+                      {h.slots.length > 0
+                        ? h.slots.map((s) => `${s.start}–${s.end}`).join(", ")
+                        : "Closed"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-6">
+              <h2 className="font-display text-3xl font-bold tracking-tight">Areas covered</h2>
+              <p className="text-lg text-hp-ink-foreground/75 leading-relaxed">
+                We cover the following Reading postcodes with door-to-door pick up:
+              </p>
+              <p className="text-xl font-black text-hp-accent tracking-wider leading-relaxed">
+                {areas.map((a) => a.postcode).join(", ")}
+              </p>
+              <p className="text-base text-hp-ink-foreground/60 leading-relaxed">
+                Pick up can be arranged from home, work, college or school across all listed postcode locations.
+              </p>
+              <Link
+                to="/book"
+                className="inline-flex items-center bg-hp-accent px-8 py-4 text-base font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-transform hover:-translate-y-0.5"
+              >
+                Book a lesson
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 4: Final CTA */}
+      <section className="bg-hp-accent text-hp-accent-foreground">
+        <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 sm:py-24 text-center">
+          <div className="mx-auto max-w-2xl">
+            <h2 className="font-display text-5xl sm:text-6xl font-black leading-none tracking-tight">
+              Ready to book?
+            </h2>
+            <p className="mt-6 text-lg font-medium opacity-80 leading-relaxed">
+              Check calendar slots and secure your booking online in a few clicks.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
+              <Link
+                to="/book"
+                className="inline-flex items-center bg-hp-ink px-8 py-4 text-base font-extrabold uppercase tracking-wide text-hp-ink-foreground transition-transform hover:-translate-y-0.5"
+              >
+                Book online
+              </Link>
+              <a
+                href={site.phoneHref}
+                className="text-lg font-extrabold underline underline-offset-4 hover:opacity-90"
+              >
+                Call {site.phone}
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
