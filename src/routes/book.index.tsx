@@ -39,13 +39,12 @@ export const Route = createFileRoute("/book/")({
       { title: "Book an Automatic Driving Lesson in Reading | learnerdriver.academy" },
       {
         name: "description",
-        content:
-          "Choose a lesson type, pick a 1hr30 slot in the next 7 days and review your booking. Automatic lessons across Reading.",
+        content: `Choose a lesson type, pick a 1hr30 slot in the next ${BOOKING_WINDOW_DAYS} days and review your booking. Automatic lessons across Reading.`,
       },
       { property: "og:title", content: "Book an automatic driving lesson in Reading" },
       {
         property: "og:description",
-        content: "Pick a 1hr30 slot in the next seven days and reserve your lesson.",
+        content: `Pick a 1hr30 slot in the next ${BOOKING_WINDOW_DAYS} days and reserve your lesson.`,
       },
       { name: "robots", content: "noindex" },
     ],

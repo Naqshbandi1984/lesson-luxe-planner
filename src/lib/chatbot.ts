@@ -3,7 +3,7 @@ import { getAnthropicClient, CHATBOT_MODEL } from "./anthropic";
 import { getBookableDaysWithCalendarCheck } from "./availabilityServer";
 import type { BookableDay } from "./booking";
 import { buildKnowledgeBlock } from "./chatbotKnowledge";
-import { lessonTypes, site } from "./site";
+import { BOOKING_WINDOW_DAYS, lessonTypes, site } from "./site";
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -43,7 +43,7 @@ function buildSystemPrompt(knowledge: string, availability: string): string {
     "Real facts about the business:",
     knowledge,
     "",
-    "Real current availability for the next 7 days (the only days that can be booked — nothing beyond this list can be booked yet):",
+    `Real current availability for the next ${BOOKING_WINDOW_DAYS} days (the only days that can be booked — nothing beyond this list can be booked yet):`,
     availability,
     "",
     '2. Never tell a customer a slot is available unless it is marked "[available]" above. If what they want isn\'t marked available, offer the closest real alternatives from the table above, or suggest calling/WhatsApp.',

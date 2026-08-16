@@ -101,7 +101,7 @@ export function dayHoursLabel(day: OpeningDay): string {
 }
 
 /** Customers can book this many days ahead, rolling. */
-export const BOOKING_WINDOW_DAYS = 7;
+export const BOOKING_WINDOW_DAYS = 21;
 
 export type LessonType = {
   slug: string;

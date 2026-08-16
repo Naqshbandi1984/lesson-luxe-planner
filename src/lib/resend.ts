@@ -18,24 +18,10 @@ export function getResendClient(): Resend {
   return client;
 }
 
-/**
- * Resend's default sending identity — the only option until
- * learnerdriver.academy is verified as a domain. Under this default domain,
- * Resend will only actually deliver to the email address your Resend
- * account itself is registered under; arbitrary customer addresses will
- * fail to send until domain verification is done. Switch this to a
- * learnerdriver.academy address once that's live.
- */
-export const EMAIL_FROM = "learnerdriver.academy <onboarding@resend.dev>";
+/** learnerdriver.academy is verified with Resend (separate Resend account,
+ * fresh RESEND_API_KEY in .env.local), so sending is no longer restricted to
+ * the Resend account's own address. */
+export const EMAIL_FROM = "learnerdriver.academy <enquiries@learnerdriver.academy>";
 
-/**
- * Where booking notifications go — should be ibs_1@hotmail.co.uk, but Resend's
- * default (unverified-domain) sending identity above will only actually
- * deliver to the email address the Resend account itself is registered
- * under, which is akram8430@googlemail.com. Sending to the Hotmail address
- * under this identity silently 403s (confirmed via a real end-to-end booking
- * test), so admin notifications were never actually landing. Switch this
- * back to ibs_1@hotmail.co.uk once learnerdriver.academy is verified as a
- * domain with Resend and EMAIL_FROM above is updated to use it.
- */
-export const ADMIN_NOTIFICATION_EMAIL = "akram8430@googlemail.com";
+/** Where booking notifications go — the owner's actual inbox. */
+export const ADMIN_NOTIFICATION_EMAIL = "ibs_1@hotmail.co.uk";
