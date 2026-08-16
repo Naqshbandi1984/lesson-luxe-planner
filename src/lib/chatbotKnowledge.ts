@@ -36,7 +36,7 @@ export function buildKnowledgeBlock(): string {
     `Phone: ${site.phone}`,
     `WhatsApp: ${site.whatsappHref}`,
     `Email: ${site.email}`,
-    `${site.yearsExperience} years' instructing experience. ${site.rating} stars from ${site.reviewCount} reviews.`,
+    `${site.yearsExperience} years' instructing experience. ${site.rating} stars from ${site.reviewCountLabel}.`,
     "",
     "Opening hours (each day's exact bookable lesson slot times — there is a gap between slots, lessons are not back-to-back):",
     hours,

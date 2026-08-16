@@ -17,7 +17,14 @@ export const site = {
   url: "https://learnerdriver.academy",
   yearsExperience: 13,
   rating: 4.9,
+  /** Real figure — kept accurate here for structured data (see JsonLd.tsx's
+   * aggregateRating.reviewCount, which schema.org requires to be a real
+   * number). On-page copy uses reviewCountLabel instead, below, so it
+   * doesn't need editing every time the real count changes. */
   reviewCount: 119,
+  /** Evergreen phrasing for visible copy — stays true well past the real
+   * count above, so it doesn't need another site-wide edit for a while. */
+  reviewCountLabel: "over 100 5-star reviews",
 } as const;
 
 export const pricing = {

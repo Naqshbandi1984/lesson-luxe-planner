@@ -38,7 +38,7 @@ export function Hero() {
               <Star key={i} className="h-4 w-4 fill-hp-accent text-hp-accent" />
             ))}
           </span>
-          {site.rating} from {site.reviewCount} reviews
+          {site.rating} from {site.reviewCountLabel}
         </div>
 
         <h1 className="mt-6 max-w-3xl font-display text-6xl font-extrabold leading-[0.98] tracking-tight sm:text-7xl lg:text-8xl">

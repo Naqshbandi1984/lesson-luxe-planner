@@ -15,7 +15,7 @@ export function Footer() {
           </p>
           <p className="mt-4 max-w-xs text-sm text-hp-ink-foreground/60">
             Automatic driving lessons across Reading. {site.yearsExperience} years' instructing
-            experience, {site.rating} stars from {site.reviewCount} reviews.
+            experience, {site.rating} stars from {site.reviewCountLabel}.
           </p>
           <p className="mt-6 text-sm">
             <a

@@ -26,7 +26,7 @@ export function RatingBadge({
       </span>
       <span className="font-semibold">{site.rating}</span>
       <span className={tone === "dark" ? "text-ink-foreground/65" : "text-muted-foreground"}>
-        from {site.reviewCount} reviews
+        from {site.reviewCountLabel}
       </span>
     </div>
   );

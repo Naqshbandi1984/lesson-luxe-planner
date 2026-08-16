@@ -28,5 +28,14 @@ export function getResendClient(): Resend {
  */
 export const EMAIL_FROM = "learnerdriver.academy <onboarding@resend.dev>";
 
-/** Not a business address customers would need to check separately — goes straight to the owner. */
-export const ADMIN_NOTIFICATION_EMAIL = "ibs_1@hotmail.co.uk";
+/**
+ * Where booking notifications go — should be ibs_1@hotmail.co.uk, but Resend's
+ * default (unverified-domain) sending identity above will only actually
+ * deliver to the email address the Resend account itself is registered
+ * under, which is akram8430@googlemail.com. Sending to the Hotmail address
+ * under this identity silently 403s (confirmed via a real end-to-end booking
+ * test), so admin notifications were never actually landing. Switch this
+ * back to ibs_1@hotmail.co.uk once learnerdriver.academy is verified as a
+ * domain with Resend and EMAIL_FROM above is updated to use it.
+ */
+export const ADMIN_NOTIFICATION_EMAIL = "akram8430@googlemail.com";

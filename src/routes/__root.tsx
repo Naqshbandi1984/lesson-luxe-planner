@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { site } from "@/lib/site";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppButton } from "@/components/site/WhatsAppButton";
@@ -90,8 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Automatic Driving Lessons Reading | learnerdriver.academy" },
       {
         name: "description",
-        content:
-          "Automatic driving lessons across Reading with 13 years' experience. 4.9 stars from 119 reviews.",
+        content: `Automatic driving lessons across Reading with 13 years' experience. ${site.rating} stars from ${site.reviewCountLabel}.`,
       },
       { name: "author", content: "learnerdriver.academy" },
       { property: "og:site_name", content: "learnerdriver.academy" },

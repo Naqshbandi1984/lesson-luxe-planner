@@ -11,7 +11,7 @@ export const Route = createFileRoute("/about")({
       { title: `About ${site.instructorName} | learnerdriver.academy` },
       {
         name: "description",
-        content: `${site.instructorName} has spent 13 years teaching people to drive automatics in Reading. Patient, structured lessons and 4.9 stars from 119 reviews.`,
+        content: `${site.instructorName} has spent 13 years teaching people to drive automatics in Reading. Patient, structured lessons and ${site.rating} stars from ${site.reviewCountLabel}.`,
       },
       {
         property: "og:title",
@@ -48,7 +48,7 @@ function About() {
                   ))}
                 </span>
                 <span>
-                  {site.rating} from {site.reviewCount} reviews
+                  {site.rating} from {site.reviewCountLabel}
                 </span>
               </div>
 
