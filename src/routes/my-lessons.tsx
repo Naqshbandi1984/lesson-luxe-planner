@@ -10,7 +10,7 @@ import { lessonTypes, site } from "@/lib/site";
 export const Route = createFileRoute("/my-lessons")({
   head: () => ({
     meta: [
-      { title: "My lessons | learnerdriver.academy" },
+      { title: `My lessons | ${site.brand}` },
       {
         name: "description",
         content: "Look up your upcoming automatic driving lessons by phone number.",

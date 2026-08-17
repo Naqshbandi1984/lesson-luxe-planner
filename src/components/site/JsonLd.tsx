@@ -6,7 +6,7 @@ export function LocalBusinessJsonLd() {
     "@context": "https://schema.org",
     "@type": "DrivingSchool",
     name: site.brand,
-    description: `Automatic driving lessons in Reading with ${site.yearsExperience} years' instructing experience.`,
+    description: `Automatic driving lessons in Reading with ${site.yearsExperienceLabel} of instructing experience.`,
     url: site.url,
     telephone: "+447825031594",
     email: site.email,

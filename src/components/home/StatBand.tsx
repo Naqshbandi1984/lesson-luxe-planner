@@ -2,7 +2,8 @@ import { BOOKING_WINDOW_DAYS, site } from "@/lib/site";
 
 const stats = [
   { value: `${site.rating}★`, label: `From ${site.reviewCountLabel}` },
-  { value: `${site.yearsExperience}`, label: "Years teaching in Reading" },
+  // "Over a decade" mirrors site.yearsExperienceLabel, capitalized for this headline context.
+  { value: "Over a decade", label: "Of teaching in Reading" },
   { value: `${BOOKING_WINDOW_DAYS}`, label: "Days of availability shown at a time" },
 ] as const;
 

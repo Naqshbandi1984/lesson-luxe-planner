@@ -4,11 +4,10 @@ import { site } from "@/lib/site";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy | learnerdriver.academy" },
+      { title: `Privacy | ${site.brand}` },
       {
         name: "description",
-        content:
-          "How learnerdriver.academy handles the personal details you provide when booking driving lessons in Reading.",
+        content: `How ${site.brand} handles the personal details you provide when booking driving lessons in Reading.`,
       },
       { property: "og:title", content: "Privacy" },
       { property: "og:description", content: "How your booking details are handled." },

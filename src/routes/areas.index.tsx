@@ -4,7 +4,7 @@ import { areas, site } from "@/lib/site";
 export const Route = createFileRoute("/areas/")({
   head: () => ({
     meta: [
-      { title: "Areas Covered in Reading | learnerdriver.academy" },
+      { title: `Areas Covered in Reading | ${site.brand}` },
       {
         name: "description",
         content:

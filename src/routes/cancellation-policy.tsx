@@ -4,11 +4,10 @@ import { policies, site } from "@/lib/site";
 export const Route = createFileRoute("/cancellation-policy")({
   head: () => ({
     meta: [
-      { title: "Cancellation Policy | learnerdriver.academy" },
+      { title: `Cancellation Policy | ${site.brand}` },
       {
         name: "description",
-        content:
-          "24 hours' notice is required to cancel or change a booked automatic driving lesson or test with learnerdriver.academy.",
+        content: `24 hours' notice is required to cancel or change a booked automatic driving lesson or test with ${site.brand}.`,
       },
       { property: "og:title", content: "Cancellation policy" },
       {

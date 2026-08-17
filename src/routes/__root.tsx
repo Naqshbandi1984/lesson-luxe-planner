@@ -84,13 +84,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Automatic Driving Lessons Reading | learnerdriver.academy" },
+      { title: `Automatic Driving Lessons Reading | ${site.brand}` },
       {
         name: "description",
-        content: `Automatic driving lessons across Reading with 13 years' experience. ${site.rating} stars from ${site.reviewCountLabel}.`,
+        content: `Automatic driving lessons across Reading with ${site.yearsExperienceLabel} of experience. ${site.rating} stars from ${site.reviewCountLabel}.`,
       },
-      { name: "author", content: "learnerdriver.academy" },
-      { property: "og:site_name", content: "learnerdriver.academy" },
+      { name: "author", content: site.brand },
+      { property: "og:site_name", content: site.brand },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_GB" },
       { name: "twitter:card", content: "summary_large_image" },

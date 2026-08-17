@@ -5,7 +5,7 @@ import { gbp, policies, pricing, site } from "@/lib/site";
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
-      { title: "Driving Lesson Prices in Reading | learnerdriver.academy" },
+      { title: `Driving Lesson Prices in Reading | ${site.brand}` },
       {
         name: "description",
         content:

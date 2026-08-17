@@ -4,8 +4,11 @@
  */
 
 export const site = {
-  brand: "learnerdriver.academy",
-  legalName: "learnerdriver.academy",
+  /** Display name shown throughout the site — deliberately distinct from
+   * `domain`/`url`/`email` below, which stay as the literal
+   * learnerdriver.academy domain regardless of how the business is branded. */
+  brand: "Learner Driver Academy",
+  legalName: "Learner Driver Academy",
   instructorName: "Ibrar",
   tagline: "Automatic driving lessons in Reading",
   phone: "07825 031594",
@@ -15,6 +18,9 @@ export const site = {
   emailHref: "mailto:enquiries@learnerdriver.academy",
   domain: "learnerdriver.academy",
   url: "https://learnerdriver.academy",
+  /** Evergreen phrasing for on-page copy — see yearsExperience below for the
+   * real number, kept accurate for structured data. */
+  yearsExperienceLabel: "over a decade",
   yearsExperience: 13,
   rating: 4.9,
   /** Real figure — kept accurate here for structured data (see JsonLd.tsx's
@@ -148,7 +154,7 @@ export const lessonTypes: LessonType[] = [
       "Start on quiet residential roads at your pace",
       "Clear explanation before anything new is attempted",
       "Sessions can slow down or stop whenever you need",
-      "Patient instructor with 13 years' experience",
+      `Patient instructor with ${site.yearsExperienceLabel} of experience`,
     ],
   },
   {

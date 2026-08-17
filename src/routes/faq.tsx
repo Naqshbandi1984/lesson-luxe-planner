@@ -5,7 +5,7 @@ import { faqs, site } from "@/lib/site";
 export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
-      { title: "Driving Lesson FAQ | learnerdriver.academy" },
+      { title: `Driving Lesson FAQ | ${site.brand}` },
       {
         name: "description",
         content:

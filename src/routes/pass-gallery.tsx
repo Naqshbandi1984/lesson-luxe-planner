@@ -14,7 +14,7 @@ export const Route = createFileRoute("/pass-gallery")({
       { property: "og:title", content: "Pass gallery" },
       {
         property: "og:description",
-        content: "Real test-day photos from learners who passed with learnerdriver.academy.",
+        content: `Real test-day photos from learners who passed with ${site.brand}.`,
       },
     ],
   }),

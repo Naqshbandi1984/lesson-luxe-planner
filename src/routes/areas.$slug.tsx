@@ -13,7 +13,7 @@ export const Route = createFileRoute("/areas/$slug")({
       return { meta: [{ title: "Area not found" }, { name: "robots", content: "noindex" }] };
     }
     const { area } = loaderData;
-    const title = `Automatic Driving Lessons in ${area.name} (${area.postcode}) | learnerdriver.academy`;
+    const title = `Automatic Driving Lessons in ${area.name} (${area.postcode}) | ${site.brand}`;
     const description = `Automatic driving lessons in ${area.name}, ${area.postcode}. ${area.places}. £67.50 per 1hr30 lesson, door-to-door pick up.`;
     return {
       meta: [
@@ -78,7 +78,7 @@ function AreaPage() {
                 automatic, and you are collected from home, work, or college — whichever suits your day best.
               </p>
               <p>
-                With {site.yearsExperience} years teaching in Reading, lessons around {area.name} are
+                With {site.yearsExperienceLabel} of teaching in Reading, lessons around {area.name} are
                 built around the specific junctions, one-way systems, and roundabouts that actually come up on
                 the practical test, rather than a generic syllabus.
               </p>

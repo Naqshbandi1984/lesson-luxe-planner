@@ -49,7 +49,7 @@ export function Hero() {
 
         <p className="mt-6 max-w-lg text-lg font-medium text-hp-ink-foreground/75 sm:text-xl">
           Learn with {site.instructorName} — no clutch, no kangaroo starts, no shouting.{" "}
-          {site.yearsExperience} years of teaching people in Reading to drive — beginners,
+          {site.yearsExperienceLabel} of teaching people in Reading to drive — beginners,
           nervous drivers and anyone coming back to it after a break.
         </p>
 

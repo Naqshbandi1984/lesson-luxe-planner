@@ -4,11 +4,10 @@ import { policies, site } from "@/lib/site";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms | learnerdriver.academy" },
+      { title: `Terms | ${site.brand}` },
       {
         name: "description",
-        content:
-          "Booking terms for automatic driving lessons with learnerdriver.academy in Reading.",
+        content: `Booking terms for automatic driving lessons with ${site.brand} in Reading.`,
       },
       { property: "og:title", content: "Terms" },
       { property: "og:description", content: "Booking terms for lessons in Reading." },
@@ -28,7 +27,7 @@ function TermsPage() {
             Terms
           </h1>
           <p className="mt-4 max-w-xl text-lg text-hp-ink-foreground/75">
-            Booking terms for automatic driving lessons with learnerdriver.academy.
+            Booking terms for automatic driving lessons with {site.brand}.
           </p>
         </div>
       </section>

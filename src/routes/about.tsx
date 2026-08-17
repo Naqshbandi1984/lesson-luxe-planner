@@ -8,10 +8,10 @@ import carPhoto from "@/assets/hero-car-lessons-reading.jpg";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: `About ${site.instructorName} | learnerdriver.academy` },
+      { title: `About ${site.instructorName} | ${site.brand}` },
       {
         name: "description",
-        content: `${site.instructorName} has spent 13 years teaching people to drive automatics in Reading. Patient, structured lessons and ${site.rating} stars from ${site.reviewCountLabel}.`,
+        content: `${site.instructorName} has spent ${site.yearsExperience} years teaching people to drive automatics in Reading. Patient, structured lessons and ${site.rating} stars from ${site.reviewCountLabel}.`,
       },
       {
         property: "og:title",
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/about")({
       },
       {
         property: "og:description",
-        content: `${site.instructorName} has 13 years' experience teaching automatic driving lessons across Reading.`,
+        content: `${site.instructorName} has ${site.yearsExperience} years' experience teaching automatic driving lessons across Reading.`,
       },
     ],
   }),
@@ -53,7 +53,7 @@ function About() {
               </div>
 
               <p className="mt-8 text-lg font-medium text-hp-ink-foreground/75 sm:text-xl leading-relaxed">
-                Learn with {site.instructorName} — learnerdriver.academy is an automatic-only driving
+                Learn with {site.instructorName} — {site.brand} is an automatic-only driving
                 school in Reading. Ibrar has {site.yearsExperience} years of experience teaching pupils
                 how to master automatic vehicles safely and confidently.
               </p>

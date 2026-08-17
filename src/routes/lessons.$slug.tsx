@@ -12,7 +12,7 @@ export const Route = createFileRoute("/lessons/$slug")({
     if (!loaderData) {
       return { meta: [{ title: "Lesson not found" }, { name: "robots", content: "noindex" }] };
     }
-    const title = `${loaderData.lesson.name} in Reading | learnerdriver.academy`;
+    const title = `${loaderData.lesson.name} in Reading | ${site.brand}`;
     const description = loaderData.lesson.blurb.slice(0, 155);
     return {
       meta: [

@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { site } from "./site";
 
 // Server-only: only ever import this from createServerFn handlers and
 // src/server.ts, so the API key never reaches the client bundle.
@@ -18,10 +19,12 @@ export function getResendClient(): Resend {
   return client;
 }
 
-/** learnerdriver.academy is verified with Resend (separate Resend account,
- * fresh RESEND_API_KEY in .env.local), so sending is no longer restricted to
- * the Resend account's own address. */
-export const EMAIL_FROM = "learnerdriver.academy <enquiries@learnerdriver.academy>";
+/** The learnerdriver.academy domain is verified with Resend (separate Resend
+ * account, fresh RESEND_API_KEY in .env.local), so sending is no longer
+ * restricted to the Resend account's own address. Display name uses the
+ * site's branding (site.brand); the email address itself stays the real
+ * domain regardless of how the business is branded. */
+export const EMAIL_FROM = `${site.brand} <enquiries@learnerdriver.academy>`;
 
 /** Where booking notifications go — the owner's actual inbox. */
 export const ADMIN_NOTIFICATION_EMAIL = "ibs_1@hotmail.co.uk";

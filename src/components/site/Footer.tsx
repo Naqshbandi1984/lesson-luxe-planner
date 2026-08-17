@@ -11,10 +11,10 @@ export function Footer() {
       <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 sm:px-8 md:grid-cols-4 md:py-20">
         <div>
           <p className="font-display text-2xl font-extrabold">
-            learnerdriver<span className="text-hp-accent">.academy</span>
+            Learner Driver <span className="text-hp-accent">Academy</span>
           </p>
           <p className="mt-4 max-w-xs text-sm text-hp-ink-foreground/60">
-            Automatic driving lessons across Reading. {site.yearsExperience} years' instructing
+            Automatic driving lessons across Reading. {site.yearsExperienceLabel} of instructing
             experience, {site.rating} stars from {site.reviewCountLabel}.
           </p>
           <p className="mt-6 text-sm">
@@ -143,7 +143,7 @@ export function Footer() {
       </div>
 
       <div className="relative border-t border-hp-ink-foreground/10 px-5 py-6 text-center text-xs text-hp-ink-foreground/50 sm:px-8">
-        © {new Date().getFullYear()} learnerdriver.academy — automatic driving lessons in Reading,
+        © {new Date().getFullYear()} Learner Driver Academy — automatic driving lessons in Reading,
         Berkshire.
         {session && (
           <Link

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/reviews")({
   head: () => ({
     meta: [
-      { title: `Reviews — ${site.reviewCountLabel} | learnerdriver.academy` },
+      { title: `Reviews — ${site.reviewCountLabel} | ${site.brand}` },
       {
         name: "description",
         content: `Automatic driving lessons in Reading rated ${site.rating} stars, with ${site.reviewCountLabel}. Read what learners say.`,
@@ -36,8 +36,8 @@ function Reviews() {
             Real reviews.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-hp-ink-foreground/75 sm:text-xl leading-relaxed">
-            {site.rating} stars from {site.reviewCountLabel} across {site.yearsExperience} years
-            of teaching in Reading — real students, in their own words.
+            {site.rating} stars from {site.reviewCountLabel} — {site.yearsExperienceLabel} of
+            teaching in Reading, real students in their own words.
           </p>
           <div className="mt-6 flex justify-center items-center gap-2 text-sm font-bold">
             <span className="flex" aria-hidden="true">

@@ -5,13 +5,13 @@ import { areas, openingHours, site } from "@/lib/site";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact | learnerdriver.academy" },
+      { title: `Contact | ${site.brand}` },
       {
         name: "description",
         content:
           "Call 07825 031594, message on WhatsApp or email enquiries@learnerdriver.academy for automatic driving lessons in Reading.",
       },
-      { property: "og:title", content: "Contact learnerdriver.academy" },
+      { property: "og:title", content: `Contact ${site.brand}` },
       {
         property: "og:description",
         content: "Call, WhatsApp or email about automatic driving lessons in Reading.",

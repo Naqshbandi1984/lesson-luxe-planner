@@ -1,5 +1,4 @@
 import { Check } from "lucide-react";
-import { site } from "@/lib/site";
 
 const points = [
   "One less thing to think about — no clutch and no gear changes",
@@ -26,11 +25,12 @@ export function WhyAutomatic() {
           </ul>
         </div>
         <div className="flex flex-col justify-center border-l-4 border-hp-accent pl-8">
-          <p className="font-display text-7xl font-black leading-none">
-            {site.yearsExperience}
+          {/* "Over a decade" mirrors site.yearsExperienceLabel, capitalized for this headline context. */}
+          <p className="font-display text-6xl font-black leading-none sm:text-7xl">
+            Over a decade
           </p>
           <p className="mt-2 text-sm font-extrabold uppercase tracking-wide text-hp-paper-foreground/60">
-            Years teaching automatics in Reading
+            Teaching automatics in Reading
           </p>
           <p className="mt-6 text-base text-hp-paper-foreground/70">
             One instructor, start to finish — the person you book with is the person who

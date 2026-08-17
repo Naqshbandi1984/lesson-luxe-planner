@@ -36,7 +36,7 @@ export const Route = createFileRoute("/book/")({
   },
   head: () => ({
     meta: [
-      { title: "Book an Automatic Driving Lesson in Reading | learnerdriver.academy" },
+      { title: `Book an Automatic Driving Lesson in Reading | ${site.brand}` },
       {
         name: "description",
         content: `Choose a lesson type, pick a 1hr30 slot in the next ${BOOKING_WINDOW_DAYS} days and review your booking. Automatic lessons across Reading.`,

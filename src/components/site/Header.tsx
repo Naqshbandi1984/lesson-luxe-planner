@@ -23,13 +23,13 @@ export function Header() {
       <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-6 px-5 sm:px-8">
         <Link
           to="/"
-          className="flex items-center gap-2.5 font-display text-xl font-extrabold tracking-tight"
+          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-display text-xl font-extrabold tracking-tight"
           onClick={() => setOpen(false)}
         >
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-hp-accent text-sm font-black text-hp-accent-foreground">
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-hp-accent text-sm font-black text-hp-accent-foreground">
             A
           </span>
-          learnerdriver<span className="text-hp-accent">.academy</span>
+          Learner Driver <span className="text-hp-accent">Academy</span>
         </Link>
 
         <nav className="ml-8 hidden items-center gap-7 lg:flex">

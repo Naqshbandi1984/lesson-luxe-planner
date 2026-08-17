@@ -10,7 +10,7 @@ export const Route = createFileRoute("/book/success")({
   }),
   head: () => ({
     meta: [
-      { title: "Booking confirmed | learnerdriver.academy" },
+      { title: `Booking confirmed | ${site.brand}` },
       { name: "robots", content: "noindex" },
     ],
   }),

@@ -62,7 +62,7 @@ export function ChatWidget() {
           <div className="flex items-center justify-between bg-hp-ink px-4 py-3 text-hp-ink-foreground">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-hp-accent" aria-hidden="true" />
-              <p className="text-sm font-bold">Ask learnerdriver.academy</p>
+              <p className="text-sm font-bold">Ask {site.brand}</p>
             </div>
             <button
               type="button"
