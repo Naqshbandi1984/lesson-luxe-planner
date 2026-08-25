@@ -20,10 +20,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 bg-hp-ink text-hp-ink-foreground">
-      <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-6 px-5 sm:px-8">
+      <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-3 px-5 sm:gap-6 sm:px-8">
         <Link
           to="/"
-          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-display text-xl font-extrabold tracking-tight"
+          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-display text-lg font-extrabold tracking-tight sm:text-xl"
           onClick={() => setOpen(false)}
         >
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-hp-accent text-sm font-black text-hp-accent-foreground">
@@ -59,7 +59,7 @@ export function Header() {
           </a>
           <Link
             to="/book"
-            className="inline-flex items-center bg-hp-accent px-5 py-3 text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-opacity hover:opacity-90"
+            className="hidden items-center bg-hp-accent px-5 py-3 text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-opacity hover:opacity-90 sm:inline-flex"
           >
             Book a lesson
           </Link>
@@ -77,6 +77,13 @@ export function Header() {
 
       {open && (
         <nav className="border-t border-hp-ink-foreground/10 bg-hp-ink px-5 py-4 lg:hidden">
+          <Link
+            to="/book"
+            onClick={() => setOpen(false)}
+            className="inline-flex items-center bg-hp-accent px-5 py-3 text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground sm:hidden"
+          >
+            Book a lesson
+          </Link>
           {nav.map((item) => (
             <Link
               key={item.label}
