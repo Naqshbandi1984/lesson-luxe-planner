@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ShieldCheck } from "lucide-react";
+import { Activity, ShieldCheck } from "lucide-react";
 import { areas, dayHoursLabel, lessonTypes, openingHours, site } from "@/lib/site";
 import { useAdminSession } from "@/lib/useAdminSession";
 
@@ -146,14 +146,24 @@ export function Footer() {
         © {new Date().getFullYear()} Learner Driver Academy — automatic driving lessons in Reading,
         Berkshire.
         {session && (
-          <Link
-            to="/admin/bookings"
-            className="absolute right-5 top-1/2 -translate-y-1/2 inline-flex items-center gap-1.5 text-hp-ink-foreground/40 hover:text-hp-accent sm:right-8"
-            aria-label="Admin"
-            title="Admin"
-          >
-            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-          </Link>
+          <div className="absolute right-5 top-1/2 flex -translate-y-1/2 items-center gap-3 sm:right-8">
+            <Link
+              to="/admin/health"
+              className="text-hp-ink-foreground/40 hover:text-hp-accent"
+              aria-label="Connection health"
+              title="Connection health"
+            >
+              <Activity className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link
+              to="/admin/bookings"
+              className="text-hp-ink-foreground/40 hover:text-hp-accent"
+              aria-label="Admin"
+              title="Admin"
+            >
+              <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
         )}
       </div>
     </footer>

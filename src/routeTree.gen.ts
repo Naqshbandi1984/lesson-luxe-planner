@@ -22,6 +22,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminBookingsRouteImport } from './routes/admin.bookings'
+import { Route as AdminHealthRouteImport } from './routes/admin.health'
 import { Route as AreasIndexRouteImport } from './routes/areas.index'
 import { Route as AreasSlugRouteImport } from './routes/areas.$slug'
 import { Route as BookIndexRouteImport } from './routes/book.index'
@@ -93,6 +94,11 @@ const AdminBookingsRoute = AdminBookingsRouteImport.update({
   path: '/admin/bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminHealthRoute = AdminHealthRouteImport.update({
+  id: '/admin/health',
+  path: '/admin/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AreasIndexRoute = AreasIndexRouteImport.update({
   id: '/areas/',
   path: '/areas/',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/reviews': typeof ReviewsRoute
   '/terms': typeof TermsRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/health': typeof AdminHealthRoute
   '/areas/$slug': typeof AreasSlugRoute
   '/book/success': typeof BookSuccessRoute
   '/lessons/$slug': typeof LessonsSlugRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/reviews': typeof ReviewsRoute
   '/terms': typeof TermsRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/health': typeof AdminHealthRoute
   '/areas/$slug': typeof AreasSlugRoute
   '/book/success': typeof BookSuccessRoute
   '/lessons/$slug': typeof LessonsSlugRoute
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/reviews': typeof ReviewsRoute
   '/terms': typeof TermsRoute
   '/admin/bookings': typeof AdminBookingsRoute
+  '/admin/health': typeof AdminHealthRoute
   '/areas/$slug': typeof AreasSlugRoute
   '/book/success': typeof BookSuccessRoute
   '/lessons/$slug': typeof LessonsSlugRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/terms'
     | '/admin/bookings'
+    | '/admin/health'
     | '/areas/$slug'
     | '/book/success'
     | '/lessons/$slug'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/terms'
     | '/admin/bookings'
+    | '/admin/health'
     | '/areas/$slug'
     | '/book/success'
     | '/lessons/$slug'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/reviews'
     | '/terms'
     | '/admin/bookings'
+    | '/admin/health'
     | '/areas/$slug'
     | '/book/success'
     | '/lessons/$slug'
@@ -255,6 +267,7 @@ export interface RootRouteChildren {
   ReviewsRoute: typeof ReviewsRoute
   TermsRoute: typeof TermsRoute
   AdminBookingsRoute: typeof AdminBookingsRoute
+  AdminHealthRoute: typeof AdminHealthRoute
   AreasSlugRoute: typeof AreasSlugRoute
   LessonsSlugRoute: typeof LessonsSlugRoute
   AreasIndexRoute: typeof AreasIndexRoute
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/health': {
+      id: '/admin/health'
+      path: '/admin/health'
+      fullPath: '/admin/health'
+      preLoaderRoute: typeof AdminHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/areas/': {
       id: '/areas/'
       path: '/areas'
@@ -417,6 +437,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReviewsRoute: ReviewsRoute,
   TermsRoute: TermsRoute,
   AdminBookingsRoute: AdminBookingsRoute,
+  AdminHealthRoute: AdminHealthRoute,
   AreasSlugRoute: AreasSlugRoute,
   LessonsSlugRoute: LessonsSlugRoute,
   AreasIndexRoute: AreasIndexRoute,

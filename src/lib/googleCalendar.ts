@@ -271,3 +271,52 @@ export async function getCalendarBusyBlocks(
   ]);
   return [...drivingLessons, ...primary];
 }
+
+/** Pulls a short, admin-readable message out of a Google API error — these
+ * are GaxiosErrors whose useful detail lives in response.data, not message,
+ * e.g. { error: "invalid_grant", error_description: "Token has been
+ * expired or revoked." }. Falls back progressively for anything else. */
+function describeGoogleError(err: unknown): string {
+  const data = (err as { response?: { data?: unknown } }).response?.data;
+  if (data && typeof data === "object") {
+    const d = data as { error_description?: unknown; error?: unknown };
+    if (typeof d.error_description === "string") return d.error_description;
+    if (typeof d.error === "string") return d.error;
+  }
+  return err instanceof Error ? err.message : String(err);
+}
+
+export type ConnectionCheckResult =
+  | { ok: true; detail: string }
+  | { ok: false; message: string };
+
+/**
+ * On-demand check for the admin health page — same auth path as every real
+ * calendar call, but doesn't touch busy-block data. Just proves the stored
+ * refresh token is still valid and the "Driving Lessons" calendar is
+ * reachable, so a dead/expired token (see googleCalendar.ts's OAuth setup
+ * comments — this has happened before) shows up here before a customer
+ * hits it on /book.
+ */
+export async function checkGoogleCalendarConnection(): Promise<ConnectionCheckResult> {
+  assertServer();
+  if (!isGoogleCalendarConfigured()) {
+    return {
+      ok: false,
+      message: "Not connected — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET or GOOGLE_REFRESH_TOKEN is missing.",
+    };
+  }
+  try {
+    const calendar = await getCalendarClient();
+    const list = await calendar.calendarList.list();
+    const found = (list.data.items ?? []).some((c) => c.summary === CALENDAR_NAME);
+    return {
+      ok: true,
+      detail: found
+        ? `Connected — "${CALENDAR_NAME}" calendar found.`
+        : `Connected, but "${CALENDAR_NAME}" calendar wasn't found — it's created automatically on the next booking.`,
+    };
+  } catch (err) {
+    return { ok: false, message: describeGoogleError(err) };
+  }
+}
