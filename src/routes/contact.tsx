@@ -45,7 +45,7 @@ function Contact() {
           <div className="grid gap-6 sm:grid-cols-3">
             <a
               href={site.phoneHref}
-              className="group border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
+              className="group min-w-0 border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
             >
               <Phone className="h-6 w-6 text-hp-accent" aria-hidden="true" />
               <h2 className="mt-6 font-display text-2xl font-bold text-hp-ink">Call</h2>
@@ -61,7 +61,7 @@ function Contact() {
               href={site.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
+              className="group min-w-0 border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
             >
               <MessageCircle className="h-6 w-6 text-hp-accent" aria-hidden="true" />
               <h2 className="mt-6 font-display text-2xl font-bold text-hp-ink">WhatsApp</h2>
@@ -75,7 +75,7 @@ function Contact() {
 
             <a
               href={site.emailHref}
-              className="group border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
+              className="group min-w-0 border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8 hover:border-hp-accent hover:bg-hp-paper-foreground/[0.04] transition-all duration-300"
             >
               <Mail className="h-6 w-6 text-hp-accent" aria-hidden="true" />
               <h2 className="mt-6 font-display text-2xl font-bold text-hp-ink">Email</h2>

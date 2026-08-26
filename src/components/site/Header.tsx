@@ -23,7 +23,7 @@ export function Header() {
       <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-3 px-5 sm:gap-6 sm:px-8">
         <Link
           to="/"
-          className="flex shrink-0 items-center gap-2.5 whitespace-nowrap font-display text-lg font-extrabold tracking-tight sm:text-xl"
+          className="flex shrink-0 items-center gap-2 whitespace-nowrap font-display text-base font-extrabold tracking-tight sm:gap-2.5 sm:text-xl"
           onClick={() => setOpen(false)}
         >
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-hp-accent text-sm font-black text-hp-accent-foreground">
@@ -32,7 +32,16 @@ export function Header() {
           Learner Driver <span className="text-hp-accent">Academy</span>
         </Link>
 
-        <nav className="ml-8 hidden items-center gap-7 lg:flex">
+        {/*
+          Custom 1340px breakpoint, not the standard lg (1024px): the full
+          nav (logo + 9 links + phone + Book a lesson) measures 1314px wide
+          at natural size — Tailwind's lg switches the hamburger off well
+          before there's room, causing horizontal overflow across the whole
+          site (the header is global). 1340px clears that with a small
+          margin for cross-browser font-rendering variance. Re-measure this
+          if a nav item is ever added/renamed.
+        */}
+        <nav className="ml-8 hidden items-center gap-7 min-[1340px]:flex">
           {nav.map((item) => (
             <Link
               key={item.label}
@@ -68,7 +77,7 @@ export function Header() {
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="inline-flex h-11 w-11 items-center justify-center text-hp-ink-foreground lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center text-hp-ink-foreground min-[1340px]:hidden"
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -76,7 +85,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="border-t border-hp-ink-foreground/10 bg-hp-ink px-5 py-4 lg:hidden">
+        <nav className="border-t border-hp-ink-foreground/10 bg-hp-ink px-5 py-4 min-[1340px]:hidden">
           <Link
             to="/book"
             onClick={() => setOpen(false)}
