@@ -515,7 +515,7 @@ function BookPage() {
                           Starting checkout…
                         </>
                       ) : (
-                        "Pay by card (Stripe) — recommended"
+                        "Pay by card (Stripe)"
                       )}
                     </button>
 
@@ -531,7 +531,7 @@ function BookPage() {
                           Setting up your reference…
                         </>
                       ) : (
-                        "Pay by bank transfer"
+                        "Pay by bank transfer — preferred"
                       )}
                     </button>
                     <p className="text-xs text-hp-paper-foreground/60">
