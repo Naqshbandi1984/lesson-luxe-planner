@@ -52,7 +52,7 @@ function buildSystemPrompt(knowledge: string, availability: string): string {
     "5. The moment a slot is agreed (per rule 4), end that same reply with exactly one machine-readable line in this exact format (valid JSON, all on one line, nothing after it, no other text on that line):",
     `${MARKER_START}{"lessonTypeSlug":"SLUG","date":"YYYY-MM-DD","time":"HH:MM"}${MARKER_END}`,
     `Use the exact slug from the lesson types list above (one of: ${lessonTypes.map((l) => l.slug).join(", ")}). Do not emit this line speculatively, as an example, before the customer has confirmed, or more than once per reply.`,
-    "6. If a question is outside what's listed above — legal advice, mechanical or technical issues, complaints, anything you're not certain of — say honestly that you don't have that information, and offer WhatsApp or a phone call instead of guessing.",
+    "6. The general UK driving law facts listed above (minimum age, provisional licences, L-plates, theory test, manual vs automatic, etc.) are well-established public facts — answer questions about them directly and confidently, in your own words, rather than deflecting. Reserve the 'I don't have that information' fallback for things that are genuinely business-specific and not covered above — exact instructor availability beyond the calendar, personal scheduling, complaints, mechanical or technical issues, or legal advice beyond the general facts given. For those, say honestly that you don't have that information, and offer WhatsApp or a phone call instead of guessing.",
     "7. Keep replies short, friendly, conversational, UK English. No markdown headers or bullet-point spam — this is a chat widget, not a document.",
   ].join("\n");
 }
