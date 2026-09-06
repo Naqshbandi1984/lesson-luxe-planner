@@ -9,12 +9,12 @@ export const Route = createFileRoute("/pricing")({
       {
         name: "description",
         content:
-          "Automatic driving lesson prices in Reading: £67.50 per 1hr30 lesson, £430 for 10 hours, test day from £100. No hidden fees.",
+          "Automatic driving lesson prices in Reading: £68.70 per 1hr30 lesson (£67.50 by bank transfer), £436 for 10 hours (£430 by bank transfer), test day from £100.",
       },
       { property: "og:title", content: "Driving lesson prices in Reading" },
       {
         property: "og:description",
-        content: "£67.50 per 1hr30 automatic lesson, £430 for a 10-hour package.",
+        content: "£68.70 per 1hr30 automatic lesson, £436 for a 10-hour package — less by bank transfer.",
       },
     ],
   }),
@@ -32,6 +32,11 @@ function Pricing() {
   const packagesTotal = packages * pricing.package.price;
   const testFee = pricing.testDay.find((t) => t.centre === centre)?.price ?? 0;
   const total = packagesTotal + lessonsTotal + testFee;
+  // Test day fee is unaffected by payment method — only lesson/package prices differ.
+  const bankTransferLessonsTotal = remainderLessons * pricing.lesson.bankTransferPrice;
+  const bankTransferPackagesTotal = packages * pricing.package.bankTransferPrice;
+  const bankTransferTotal = bankTransferPackagesTotal + bankTransferLessonsTotal + testFee;
+  const totalSaving = total - bankTransferTotal;
 
   return (
     <div className="w-full">
@@ -61,6 +66,10 @@ function Pricing() {
               <p className="mt-3 text-sm text-hp-ink-foreground/60">
                 Works out as {gbp(pricing.lesson.price / 1.5)} per hour
               </p>
+              <p className="mt-1 text-sm font-semibold text-hp-accent">
+                or {gbp(pricing.lesson.bankTransferPrice)} by bank transfer — save{" "}
+                {gbp(pricing.lesson.price - pricing.lesson.bankTransferPrice)}
+              </p>
             </div>
 
             <div className="border-2 border-hp-accent bg-hp-accent/5 p-8">
@@ -78,6 +87,10 @@ function Pricing() {
               </p>
               <p className="mt-3 text-sm text-hp-ink-foreground/60">
                 Works out as {gbp(pricing.package.price / 10)} per hour
+              </p>
+              <p className="mt-1 text-sm font-semibold text-hp-accent">
+                or {gbp(pricing.package.bankTransferPrice)} by bank transfer — save{" "}
+                {gbp(pricing.package.price - pricing.package.bankTransferPrice)}
               </p>
             </div>
           </div>
@@ -178,9 +191,20 @@ function Pricing() {
                 )}
               </ul>
               <div className="mt-6 flex items-baseline justify-between gap-4">
-                <span className="font-bold text-lg">Total</span>
+                <span className="font-bold text-lg">Card (Stripe)</span>
                 <span className="font-display text-4xl font-black text-hp-ink">{gbp(total)}</span>
               </div>
+              <div className="mt-2 flex items-baseline justify-between gap-4">
+                <span className="font-bold text-sm text-hp-accent">Bank transfer — preferred</span>
+                <span className="font-display text-xl font-black text-hp-accent">
+                  {gbp(bankTransferTotal)}
+                </span>
+              </div>
+              {totalSaving > 0 && (
+                <p className="mt-1 text-right text-xs font-semibold text-hp-accent">
+                  Save {gbp(totalSaving)}
+                </p>
+              )}
               <Link
                 to="/book"
                 className="mt-8 block w-full bg-hp-accent py-4 text-center text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-transform hover:-translate-y-0.5"

@@ -52,7 +52,7 @@ export const Route = createFileRoute("/book/")({
   component: BookPage,
 });
 
-type Product = { id: string; name: string; detail: string; price: number };
+type Product = { id: string; name: string; detail: string; price: number; bankTransferPrice: number };
 
 const products: Product[] = [
   {
@@ -60,18 +60,21 @@ const products: Product[] = [
     name: pricing.lesson.label,
     detail: `${pricing.lesson.duration} of automatic tuition`,
     price: pricing.lesson.price,
+    bankTransferPrice: pricing.lesson.bankTransferPrice,
   },
   {
     id: "package",
     name: pricing.package.label,
     detail: "10 hours to draw down, first lesson booked now",
     price: pricing.package.price,
+    bankTransferPrice: pricing.package.bankTransferPrice,
   },
   ...pricing.testDay.map((t) => ({
     id: `test-${t.centre.toLowerCase()}`,
     name: `Test day — ${t.centre}`,
     detail: "Car hire for your practical test plus warm-up drive",
     price: t.price,
+    bankTransferPrice: t.price,
   })),
 ];
 
@@ -191,7 +194,7 @@ function BookPage() {
               <Row term="Account name" desc={bankTransfer.accountName} />
               <Row term="Sort code" desc={bankTransfer.sortCode} />
               <Row term="Account number" desc={bankTransfer.accountNumber} />
-              <Row term="Amount" desc={gbp(product.price)} />
+              <Row term="Amount" desc={gbp(product.bankTransferPrice)} />
               <div className="border-t border-hp-paper-foreground/10 pt-4">
                 <p className="text-sm font-bold uppercase tracking-wide text-hp-paper-foreground/60">
                   Payment reference — use this exactly
@@ -281,7 +284,7 @@ function BookPage() {
         p_date: selectedSlot.date,
         p_start_time: selectedSlot.start,
         p_end_time: selectedSlot.end,
-        p_price: product.price,
+        p_price: product.bankTransferPrice,
         ...(notesValue ? { p_notes: notesValue } : {}),
         ...(email.trim() ? { p_email: email.trim() } : {}),
       });
@@ -484,6 +487,9 @@ function BookPage() {
                   <span className="font-bold text-hp-paper-foreground/70">Total due</span>
                   <span className="font-display text-3xl font-black text-hp-ink">{gbp(product.price)}</span>
                 </div>
+                <p className="mt-1 text-right text-xs font-semibold text-hp-accent">
+                  or {gbp(product.bankTransferPrice)} by bank transfer
+                </p>
 
                 {phase === "form" ? (
                   <>
@@ -515,7 +521,10 @@ function BookPage() {
                           Starting checkout…
                         </>
                       ) : (
-                        "Pay by card (Stripe)"
+                        <span className="flex w-full items-center justify-between">
+                          <span>Pay by card (Stripe)</span>
+                          <span>{gbp(product.price)}</span>
+                        </span>
                       )}
                     </button>
 
@@ -531,7 +540,15 @@ function BookPage() {
                           Setting up your reference…
                         </>
                       ) : (
-                        "Pay by bank transfer — preferred"
+                        <span className="flex w-full flex-col items-center gap-0.5">
+                          <span className="flex w-full items-center justify-between">
+                            <span>Pay by bank transfer — preferred</span>
+                            <span>{gbp(product.bankTransferPrice)}</span>
+                          </span>
+                          <span className="text-[11px] font-bold normal-case tracking-normal text-hp-accent">
+                            You save {gbp(product.price - product.bankTransferPrice)}
+                          </span>
+                        </span>
                       )}
                     </button>
                     <p className="text-xs text-hp-paper-foreground/60">

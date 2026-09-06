@@ -86,9 +86,13 @@ function LessonPage() {
                 {gbp(pricing.lesson.price)}
               </p>
               <p className="text-sm text-hp-paper-foreground/60">per {pricing.lesson.duration} lesson</p>
-              
+              <p className="mt-1 text-sm font-semibold text-hp-accent">
+                or {gbp(pricing.lesson.bankTransferPrice)} by bank transfer
+              </p>
+
               <p className="mt-4 text-sm text-hp-paper-foreground/75 font-semibold">
-                {pricing.package.label}: {gbp(pricing.package.price)}
+                {pricing.package.label}: {gbp(pricing.package.price)} (or{" "}
+                {gbp(pricing.package.bankTransferPrice)} by bank transfer)
               </p>
 
               <Link
