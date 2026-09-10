@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://learnerdriver.academy/sitemap.xml
+Sitemap: https://www.learnerdriver.academy/sitemap.xml

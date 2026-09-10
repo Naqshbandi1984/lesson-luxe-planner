@@ -5,7 +5,7 @@
 
 export const site = {
   /** Display name shown throughout the site — deliberately distinct from
-   * `domain`/`url`/`email` below, which stay as the literal
+   * `domain`/`url`/`email` below, which stay tied to the literal
    * learnerdriver.academy domain regardless of how the business is branded. */
   brand: "Learner Driver Academy",
   legalName: "Learner Driver Academy",
@@ -17,7 +17,10 @@ export const site = {
   email: "enquiries@learnerdriver.academy",
   emailHref: "mailto:enquiries@learnerdriver.academy",
   domain: "learnerdriver.academy",
-  url: "https://learnerdriver.academy",
+  /** www, not bare apex — the live site 308-redirects apex requests to www,
+   * so this is the actual canonical URL pages resolve to. Sitemap/JSON-LD
+   * URLs must point here directly rather than through that redirect. */
+  url: "https://www.learnerdriver.academy",
   /** Evergreen phrasing for on-page copy — see yearsExperience below for the
    * real number, kept accurate for structured data. */
   yearsExperienceLabel: "over a decade",
