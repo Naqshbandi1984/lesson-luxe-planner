@@ -14,7 +14,7 @@ export const Route = createFileRoute("/areas/$slug")({
     }
     const { area } = loaderData;
     const title = `Automatic Driving Lessons in ${area.name} (${area.postcode}) | ${site.brand}`;
-    const description = `Automatic driving lessons in ${area.name}, ${area.postcode}. ${area.places}. £67.50 per 1hr30 lesson, door-to-door pick up.`;
+    const description = `Automatic driving lessons in ${area.name}, ${area.postcode}. ${area.places}. Door-to-door pick up, from £67.50/lesson.`;
     return {
       meta: [
         { title },

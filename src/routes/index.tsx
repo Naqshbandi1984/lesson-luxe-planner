@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       { title: `Automatic Driving Lessons Reading | ${site.brand}` },
       {
         name: "description",
-        content: `Automatic driving lessons across Reading, RG1–RG30. 1hr30 lessons at £67.50, 10 hours for £430. ${site.yearsExperienceLabel} of experience, ${site.rating} stars from ${site.reviewCountLabel}.`,
+        content: `Automatic driving lessons across Reading, RG1–RG30, from £67.50 (10hrs from £430) — ${site.yearsExperienceLabel} of experience, ${site.rating} stars from ${site.reviewCountLabel}.`,
       },
       { property: "og:title", content: "Automatic Driving Lessons in Reading" },
       {

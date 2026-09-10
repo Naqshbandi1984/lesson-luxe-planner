@@ -134,6 +134,9 @@ export type LessonType = {
   short: string;
   blurb: string;
   bullets: string[];
+  /** Hand-written for meta description tags — kept under ~160 chars, never
+   * derived by truncating `blurb`, which cuts off mid-sentence. */
+  metaDescription: string;
 };
 
 export const lessonTypes: LessonType[] = [
@@ -149,6 +152,7 @@ export const lessonTypes: LessonType[] = [
       "Progress reviewed at the end of every lesson",
       "Mock tests on real Reading test routes",
     ],
+    metaDescription: `Automatic driving lessons in Reading: 1hr30 sessions from beginner to test-ready, from ${gbp(pricing.lesson.bankTransferPrice)}. Door-to-door pick up and mock tests on real Reading routes.`,
   },
   {
     slug: "intensive",
@@ -162,6 +166,8 @@ export const lessonTypes: LessonType[] = [
       "Test-day support at Reading and nearby centres",
       "Honest advice if an intensive isn't right for you",
     ],
+    metaDescription:
+      "Intensive automatic driving courses in Reading, built from 10-hour packages around your test date. Availability confirmed before you pay, plus test-day support.",
   },
   {
     slug: "nervous-drivers",
@@ -175,6 +181,7 @@ export const lessonTypes: LessonType[] = [
       "Sessions can slow down or stop whenever you need",
       `Patient instructor with ${site.yearsExperienceLabel} of experience`,
     ],
+    metaDescription: `Automatic lessons for nervous drivers in Reading — quiet roads, a patient instructor with ${site.yearsExperienceLabel} of experience, sessions that slow down whenever you need.`,
   },
   {
     slug: "refresher",
@@ -188,6 +195,8 @@ export const lessonTypes: LessonType[] = [
       "Overseas licence conversion practice",
       "Book as single lessons or a 10-hour block",
     ],
+    metaDescription:
+      "Refresher and Pass Plus lessons in Reading for licence holders returning after a break or converting an overseas licence — motorway and town driving practice.",
   },
 ];
 
