@@ -8,6 +8,7 @@ import { supabase } from "./lib/supabase";
 import { sendBookingConfirmationEmail } from "./lib/email";
 import { syncCalendarEventForConfirmedBooking } from "./lib/calendarSync";
 import { completeGoogleOAuthSetup } from "./lib/googleCalendar";
+import { areas, lessonTypes, site } from "./lib/site";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -130,6 +131,47 @@ async function handleStripeWebhook(request: Request): Promise<Response> {
 }
 
 /**
+ * Indexable pages only — every route the app marks `robots: noindex`
+ * (booking flow, my-lessons lookup, admin) is deliberately left out, along
+ * with the not-found fallbacks for the two dynamic route families below.
+ */
+const STATIC_SITEMAP_PAGES: { path: string; priority: string }[] = [
+  { path: "/", priority: "1.0" },
+  { path: "/pricing", priority: "0.9" },
+  { path: "/about", priority: "0.8" },
+  { path: "/faq", priority: "0.8" },
+  { path: "/areas", priority: "0.8" },
+  { path: "/reviews", priority: "0.7" },
+  { path: "/contact", priority: "0.6" },
+  { path: "/pass-gallery", priority: "0.5" },
+  { path: "/cancellation-policy", priority: "0.4" },
+  { path: "/privacy", priority: "0.3" },
+  { path: "/terms", priority: "0.3" },
+];
+
+/**
+ * Built from the same site.ts data the pages themselves render from, so a
+ * new area or lesson type appears here automatically — nothing to remember
+ * to regenerate by hand.
+ */
+function buildSitemapXml(): string {
+  const urls = [
+    ...STATIC_SITEMAP_PAGES,
+    ...areas.map((a) => ({ path: `/areas/${a.slug}`, priority: "0.7" })),
+    ...lessonTypes.map((l) => ({ path: `/lessons/${l.slug}`, priority: "0.7" })),
+  ];
+
+  const body = urls
+    .map(
+      (u) =>
+        `  <url>\n    <loc>${site.url}${u.path}</loc>\n    <priority>${u.priority}</priority>\n  </url>`,
+    )
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
+}
+
+/**
  * One-time Google Calendar connection callback. The redirect URI registered
  * in Google Cloud Console is exactly http://localhost:8080 (no path), so
  * this has to intercept the root route rather than a dedicated /api path —
@@ -164,6 +206,12 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/api/stripe/webhook" && request.method === "POST") {
       return handleStripeWebhook(request);
+    }
+    if (url.pathname === "/sitemap.xml" && request.method === "GET") {
+      return new Response(buildSitemapXml(), {
+        status: 200,
+        headers: { "content-type": "application/xml; charset=utf-8" },
+      });
     }
     if (url.pathname === "/" && url.searchParams.has("code") && url.searchParams.has("scope")) {
       return handleGoogleOAuthCallback(url);
