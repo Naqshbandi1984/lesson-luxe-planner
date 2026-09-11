@@ -1,10 +1,15 @@
 import { areas, openingHours, pricing, site } from "@/lib/site";
 
-/** LocalBusiness / DrivingSchool structured data for local search. */
+/** LocalBusiness structured data for local search. */
 export function LocalBusinessJsonLd() {
   const data = {
     "@context": "https://schema.org",
-    "@type": "DrivingSchool",
+    // NOT "DrivingSchool" — despite the obvious-looking name, no such type
+    // exists (schema.org/DrivingSchool is a 404). Google couldn't resolve it
+    // to a type that's allowed to carry aggregateRating, which is what
+    // Search Console reported as "Invalid object type for field
+    // '<parent_node>'". LocalBusiness is on Google's list of valid parents.
+    "@type": ["LocalBusiness", "EducationalOrganization"],
     name: site.brand,
     description: `Automatic driving lessons in Reading with ${site.yearsExperienceLabel} of instructing experience.`,
     url: site.url,
@@ -17,10 +22,20 @@ export function LocalBusinessJsonLd() {
       addressRegion: "Berkshire",
       addressCountry: "GB",
     },
+    // Must be Place/AdministrativeArea/GeoShape/Text — those are the only
+    // types schema.org allows here. PostalCodeRangeSpecification is not one
+    // of them (it belongs to DefinedRegion.postalCodeRange), and Google
+    // rejected it outright with "Invalid object type for field".
     areaServed: areas.map((a) => ({
-      "@type": "PostalCodeRangeSpecification",
-      postalCodeBegin: a.postcode,
-      postalCodeEnd: a.postcode,
+      "@type": "Place",
+      name: a.name,
+      address: {
+        "@type": "PostalAddress",
+        postalCode: a.postcode,
+        addressLocality: "Reading",
+        addressRegion: "Berkshire",
+        addressCountry: "GB",
+      },
     })),
     aggregateRating: {
       "@type": "AggregateRating",
