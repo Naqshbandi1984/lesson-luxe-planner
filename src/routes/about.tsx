@@ -38,7 +38,7 @@ function About() {
                 Your Instructor
               </p>
               <h1 className="mt-4 font-display text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.98] tracking-tight">
-                Meet Ibrar.
+                Meet Ibrar, your driving instructor.
               </h1>
               
               <div className="mt-5 flex items-center gap-2 text-sm font-bold">
@@ -53,9 +53,9 @@ function About() {
               </div>
 
               <p className="mt-8 text-lg font-medium text-hp-ink-foreground/75 sm:text-xl leading-relaxed">
-                Learn with {site.instructorName} — {site.brand} is an automatic-only driving
-                school in Reading. Ibrar has {site.yearsExperience} years of experience teaching pupils
-                how to master automatic vehicles safely and confidently.
+                Learn with {site.instructorName}, your driving instructor at {site.brand} — an
+                automatic-only driving school in Reading. Ibrar has {site.yearsExperience} years of
+                experience teaching pupils how to master automatic vehicles safely and confidently.
               </p>
               <p className="mt-4 text-base text-hp-ink-foreground/60 leading-relaxed">
                 That means the person you book with is the person who teaches you — every single lesson,

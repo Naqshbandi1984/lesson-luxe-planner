@@ -148,7 +148,7 @@ export const lessonTypes: LessonType[] = [
     name: "Automatic driving lessons",
     short: "Automatic lessons",
     blurb:
-      "Standard 1 hour 30 minute lessons in a modern automatic, from absolute beginner to test-ready. No clutch, no stalling, no hill-start panic — you spend the whole lesson learning to read the road instead of fighting the gearbox.",
+      "Standard 1 hour 30 minute lessons in a modern automatic with the same instructor every time, from absolute beginner to test-ready. No clutch, no stalling, no hill-start panic — you spend the whole lesson learning to read the road instead of fighting the gearbox.",
     bullets: [
       "Door-to-door pick up across Reading",
       "Structured plan so you always know what's next",
@@ -162,7 +162,7 @@ export const lessonTypes: LessonType[] = [
     name: "Intensive automatic courses",
     short: "Intensive courses",
     blurb:
-      "Learning condensed into a short run of lessons over days or weeks rather than months. Suited to people with a deadline — a new job, a move, or a test date already booked.",
+      "Learning condensed into a short run of lessons over days or weeks rather than months, working with the same instructor throughout so nothing gets lost between sessions. Suited to people with a deadline — a new job, a move, or a test date already booked.",
     bullets: [
       "Built from 10-hour packages to suit your dates",
       "Availability confirmed with you before you pay",
@@ -191,7 +191,7 @@ export const lessonTypes: LessonType[] = [
     name: "Refresher and Pass Plus",
     short: "Refresher lessons",
     blurb:
-      "Already hold a licence but haven't driven for a while, or converting from an overseas licence? A short block of refresher lessons rebuilds confidence on motorways, dual carriageways and busy town driving.",
+      "Already hold a licence but haven't driven for a while, or converting from an overseas licence? A short block of one-to-one lessons with an experienced instructor rebuilds confidence on motorways, dual carriageways and busy town driving.",
     bullets: [
       "Confidence-building after a break from driving",
       "Motorway and dual carriageway sessions",
@@ -209,6 +209,11 @@ export type Area = {
   name: string;
   places: string;
   note: string;
+  /** A second, distinct paragraph of local colour for the area page body —
+   * deliberately not a restatement of `note` (different angle each time:
+   * who tends to learn here, pick-up logistics, what the roads mean day to
+   * day) so seven area pages don't read as one template with names swapped. */
+  localBlurb: string;
 };
 
 export const areas: Area[] = [
@@ -218,6 +223,8 @@ export const areas: Area[] = [
     name: "Reading town centre",
     places: "Central Reading, Newtown, Katesgrove, Whitley Wood edge",
     note: "Dense one-way systems, bus lanes and busy pedestrian crossings — the part of Reading that catches most learners out, and the part you'll be tested on.",
+    localBlurb:
+      "We run a lot of lessons through the town centre — it's unavoidable if you're learning to drive in Reading, so we'd rather get you comfortable with it early than leave it as a surprise for test week. If you're based in Newtown or Katesgrove, you're usually only a few minutes from pick-up.",
   },
   {
     slug: "rg2",
@@ -225,6 +232,8 @@ export const areas: Area[] = [
     name: "Whitley and Shinfield",
     places: "Whitley, Shinfield, Arborfield, Lower Earley border",
     note: "Close to the A33 corridor, so lessons here mix quiet estate roads with dual carriageway joins and roundabout practice.",
+    localBlurb:
+      "Shinfield and Arborfield have both grown fast in recent years, and quite a few of our pupils are still getting to know the area themselves as well as learning to drive. We build lessons around that — starting on the newer, quieter estate roads before layering in busier routes toward Lower Earley.",
   },
   {
     slug: "rg4",
@@ -232,6 +241,8 @@ export const areas: Area[] = [
     name: "Caversham and Emmer Green",
     places: "Caversham, Emmer Green, Caversham Heights, Sonning Common",
     note: "Hills, narrow lanes and the Caversham bridges. An automatic makes hill starts on these roads a non-event.",
+    localBlurb:
+      "Caversham and Emmer Green sit north of the river, so crossing back into central Reading is part of nearly every lesson here — good practice for a route that comes up often on test day. Pupils from Sonning Common tend to do a longer stretch of lane driving before they reach town, which suits anyone who wants extra time building confidence before mixing with heavier traffic.",
   },
   {
     slug: "rg5",
@@ -239,6 +250,8 @@ export const areas: Area[] = [
     name: "Woodley",
     places: "Woodley, Bulmershe, Sonning",
     note: "Wide residential roads that are ideal for early lessons, with quick access to busier routes when you're ready.",
+    localBlurb:
+      "A good number of our total-beginner pupils start out in Woodley — it's a natural fit for a first lesson. We're just as often out around Bulmershe and towards Sonning, and pick-up covers all of it without adding much to your journey time either way.",
   },
   {
     slug: "rg6",
@@ -246,6 +259,8 @@ export const areas: Area[] = [
     name: "Earley and Lower Earley",
     places: "Earley, Lower Earley, Whiteknights, University area",
     note: "Popular with university students learning between terms. Lots of mini-roundabouts and parked-car navigation.",
+    localBlurb:
+      "Whiteknights is the University of Reading's main campus, so a lot of our Earley and Lower Earley pupils are students — often booking lessons in short bursts between terms rather than one a week for months. Term-time or not, the mini-roundabouts around here are worth the practice, since Reading's test routes have their fair share.",
   },
   {
     slug: "rg7",
@@ -253,6 +268,8 @@ export const areas: Area[] = [
     name: "Three Mile Cross",
     places: "Burghfield Common, Mortimer, Theale edge, Beenham",
     note: "Country lanes and national speed limit roads — good for building confidence at higher speeds before test day.",
+    localBlurb:
+      "Three Mile Cross and the villages around it — Burghfield Common, Mortimer, the edge of Theale — feel a world away from central Reading, which is exactly the point for pupils who want space to build confidence before tackling town traffic. It's also useful if you know you'll be doing a lot of country driving once you've passed.",
   },
   {
     slug: "rg30",
@@ -260,6 +277,8 @@ export const areas: Area[] = [
     name: "Tilehurst and Southcote",
     places: "Tilehurst, Southcote, Calcot, Norcot",
     note: "Steep residential hills and busy junctions onto the Oxford Road. Regular ground for Reading test routes.",
+    localBlurb:
+      "A lot of our nervous-driver lessons start in Tilehurst — the hills mean you're practising proper hill starts from lesson one rather than as a special exercise, which suits pupils who want the hard bits out of the way early. We cover Southcote, Calcot and Norcot just as regularly, so pick-up is quick wherever in RG30 you're based.",
   },
 ];
 

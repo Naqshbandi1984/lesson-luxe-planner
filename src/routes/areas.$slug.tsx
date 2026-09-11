@@ -73,6 +73,7 @@ function AreaPage() {
                 Learn on your local test routes.
               </h2>
               <p className="font-bold text-hp-ink">{area.note}</p>
+              <p>{area.localBlurb}</p>
               <p>
                 Pick up covers {area.places}. Lessons are {pricing.lesson.duration} long in a modern
                 automatic, and you are collected from home, work, or college — whichever suits your day best.

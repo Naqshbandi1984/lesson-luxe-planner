@@ -48,9 +48,10 @@ export function Hero() {
         </h1>
 
         <p className="mt-6 max-w-lg text-lg font-medium text-hp-ink-foreground/75 sm:text-xl">
-          Learn with {site.instructorName} — no clutch, no kangaroo starts, no shouting.{" "}
-          {site.yearsExperienceLabel} of teaching people in Reading to drive — beginners,
-          nervous drivers and anyone coming back to it after a break.
+          Learn with {site.instructorName}, a patient automatic driving instructor in Reading — no
+          clutch, no kangaroo starts, no shouting. {site.yearsExperienceLabel} of teaching
+          automatic driving lessons to beginners, nervous drivers and anyone coming back to it
+          after a break.
         </p>
 
         <div className="mt-10 flex flex-wrap gap-4">
