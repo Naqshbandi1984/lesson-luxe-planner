@@ -93,14 +93,10 @@ function AreaPage() {
                 {gbp(pricing.lesson.price)}
               </p>
               <p className="text-sm text-hp-paper-foreground/60">per {pricing.lesson.duration} lesson</p>
-              <p className="mt-1 text-sm font-semibold text-hp-accent">
-                or {gbp(pricing.lesson.bankTransferPrice)} by bank transfer
-              </p>
               <p className="mt-4 text-sm text-hp-paper-foreground/75 font-semibold">
-                {pricing.package.label}: {gbp(pricing.package.price)} (or{" "}
-                {gbp(pricing.package.bankTransferPrice)} by bank transfer)
+                {pricing.package.label}: {gbp(pricing.package.price)}
               </p>
-              
+
               <Link
                 to="/book"
                 className="mt-6 block w-full bg-hp-accent py-4 text-center text-sm font-extrabold uppercase tracking-wide text-hp-accent-foreground transition-transform hover:-translate-y-0.5"

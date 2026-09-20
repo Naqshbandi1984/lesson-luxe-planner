@@ -16,18 +16,12 @@ export function PricingSplit() {
             <p className="mt-2 text-lg font-bold">
               {pricing.lesson.label} · {pricing.lesson.duration}
             </p>
-            <p className="mt-1 text-sm font-semibold text-hp-accent">
-              or {gbp(pricing.lesson.bankTransferPrice)} by bank transfer
-            </p>
           </div>
           <div className="mt-10">
             <p className="font-display text-6xl font-black leading-none sm:text-7xl">
               {gbp(pricing.package.price)}
             </p>
             <p className="mt-2 text-lg font-bold">{pricing.package.label} · best value per hour</p>
-            <p className="mt-1 text-sm font-semibold text-hp-accent">
-              or {gbp(pricing.package.bankTransferPrice)} by bank transfer
-            </p>
           </div>
         </div>
 

@@ -36,28 +36,9 @@ export const site = {
   reviewCountLabel: "over 100 5-star reviews",
 } as const;
 
-/**
- * price = standard/headline figure, charged for card payments. bankTransferPrice
- * = the discounted figure for bank transfer (no card-processing cost to pass
- * on). Framed everywhere as a bank-transfer discount, never a card
- * surcharge — UK surcharge regulations (Consumer Rights (Payment
- * Surcharges) Regulations 2012 / Payment Services Regulations 2017) ban
- * charging extra for card payments specifically, but discounting an
- * alternative method is fine.
- */
 export const pricing = {
-  lesson: {
-    label: "Single lesson",
-    duration: "1 hour 30 minutes",
-    price: 68.7,
-    bankTransferPrice: 67.5,
-  },
-  package: {
-    label: "10-hour package",
-    duration: "Six and a bit lessons",
-    price: 436,
-    bankTransferPrice: 430,
-  },
+  lesson: { label: "Single lesson", duration: "1 hour 30 minutes", price: 67.5 },
+  package: { label: "10-hour package", duration: "Six and a bit lessons", price: 430 },
   testDay: [
     { centre: "Reading", price: 100 },
     { centre: "Farnborough", price: 150 },
@@ -155,7 +136,7 @@ export const lessonTypes: LessonType[] = [
       "Progress reviewed at the end of every lesson",
       "Mock tests on real Reading test routes",
     ],
-    metaDescription: `Automatic driving lessons in Reading: 1hr30 sessions from beginner to test-ready, from ${gbp(pricing.lesson.bankTransferPrice)}. Door-to-door pick up and mock tests on real Reading routes.`,
+    metaDescription: `Automatic driving lessons in Reading: 1hr30 sessions from beginner to test-ready, from ${gbp(pricing.lesson.price)}. Door-to-door pick up and mock tests on real Reading routes.`,
   },
   {
     slug: "intensive",
@@ -351,7 +332,7 @@ export const faqs = [
   },
   {
     q: "How long is a lesson and what does it cost?",
-    a: `Every lesson is 1 hour 30 minutes at ${gbp(pricing.lesson.price)} (${gbp(pricing.lesson.bankTransferPrice)} if you pay by bank transfer). A 10-hour package is ${gbp(pricing.package.price)} (${gbp(pricing.package.bankTransferPrice)} by bank transfer), which works out cheaper per hour.`,
+    a: `Every lesson is 1 hour 30 minutes at ${gbp(pricing.lesson.price)}. A 10-hour package is ${gbp(pricing.package.price)}, which works out cheaper per hour.`,
   },
   {
     q: "When do I pay?",
