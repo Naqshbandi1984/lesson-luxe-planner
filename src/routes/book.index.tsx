@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Check, Info, Landmark, Loader2 } from "lucide-react";
@@ -112,6 +112,14 @@ function BookPage() {
   const [bankTransferReference, setBankTransferReference] = useState<string | null>(null);
 
   const product = products.find((p) => p.id === productId)!;
+
+  // "2. Pick a slot" is below the fold on mobile right after choosing a
+  // product/lesson type in step 1 — scroll it into view so it's obvious
+  // something happened.
+  const step2Ref = useRef<HTMLElement>(null);
+  function scrollToStep2() {
+    step2Ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   useEffect(() => {
     if (!days) return;
@@ -337,7 +345,10 @@ function BookPage() {
                         <button
                           key={p.id}
                           type="button"
-                          onClick={() => setProductId(p.id)}
+                          onClick={() => {
+                            setProductId(p.id);
+                            scrollToStep2();
+                          }}
                           aria-pressed={selected}
                           className={`border p-4 text-left transition-all ${
                             selected
@@ -366,7 +377,10 @@ function BookPage() {
                         <button
                           key={l.slug}
                           type="button"
-                          onClick={() => setLessonFocus(l.slug)}
+                          onClick={() => {
+                            setLessonFocus(l.slug);
+                            scrollToStep2();
+                          }}
                           className={`border px-4 py-2 text-sm font-bold transition-all ${
                             lessonFocus === l.slug
                               ? "border-hp-ink bg-hp-ink text-hp-ink-foreground"
@@ -381,7 +395,10 @@ function BookPage() {
                 </section>
 
                 {/* Step 2: Pick a slot */}
-                <section className="border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8">
+                <section
+                  ref={step2Ref}
+                  className="scroll-mt-24 border border-hp-paper-foreground/15 bg-hp-paper-foreground/[0.02] p-8"
+                >
                   <h2 className="font-display text-xl font-bold text-hp-ink">2. Pick a slot</h2>
                   <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-7">
                     {days.map((d, i) => {
