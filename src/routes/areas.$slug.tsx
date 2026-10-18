@@ -1,9 +1,17 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { areas, gbp, pricing, site } from "@/lib/site";
 
+/** Slugs for areas we've since stopped covering — redirected rather than
+ * left to 404, since these were real, previously-indexed pages. */
+const REMOVED_AREA_REDIRECTS: Record<string, string> = {
+  rg30: "/areas",
+};
+
 export const Route = createFileRoute("/areas/$slug")({
   loader: ({ params }) => {
+    const redirectTo = REMOVED_AREA_REDIRECTS[params.slug];
+    if (redirectTo) throw redirect({ to: redirectTo, statusCode: 301 });
     const area = areas.find((a) => a.slug === params.slug);
     if (!area) throw notFound();
     return { area };

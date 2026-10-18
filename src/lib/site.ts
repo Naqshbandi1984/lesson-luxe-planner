@@ -3,6 +3,15 @@
  * Swap these for Supabase-backed data once the existing project is connected.
  */
 
+/** "RG1, RG2 and RG4" style list — avoids writing out postcodes by hand
+ * anywhere coverage is described, so removing/adding an area can't drift
+ * out of sync with hand-written copy the way a plain "RG1–RG30" range did. */
+export function listWithAnd(items: string[]): string {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0]!;
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
 export const site = {
   /** Display name shown throughout the site — deliberately distinct from
    * `domain`/`url`/`email` below, which stay tied to the literal
@@ -247,19 +256,10 @@ export const areas: Area[] = [
     slug: "rg7",
     postcode: "RG7",
     name: "Three Mile Cross",
-    places: "Burghfield Common, Mortimer, Theale edge, Beenham",
+    places: "Theale edge",
     note: "Country lanes and national speed limit roads — good for building confidence at higher speeds before test day.",
     localBlurb:
-      "Three Mile Cross and the villages around it — Burghfield Common, Mortimer, the edge of Theale — feel a world away from central Reading, which is exactly the point for pupils who want space to build confidence before tackling town traffic. It's also useful if you know you'll be doing a lot of country driving once you've passed.",
-  },
-  {
-    slug: "rg30",
-    postcode: "RG30",
-    name: "Tilehurst and Southcote",
-    places: "Tilehurst, Southcote, Calcot, Norcot",
-    note: "Steep residential hills and busy junctions onto the Oxford Road. Regular ground for Reading test routes.",
-    localBlurb:
-      "A lot of our nervous-driver lessons start in Tilehurst — the hills mean you're practising proper hill starts from lesson one rather than as a special exercise, which suits pupils who want the hard bits out of the way early. We cover Southcote, Calcot and Norcot just as regularly, so pick-up is quick wherever in RG30 you're based.",
+      "Three Mile Cross and the edge of Theale feel a world away from central Reading, which is exactly the point for pupils who want space to build confidence before tackling town traffic. It's also useful if you know you'll be doing a lot of country driving once you've passed.",
   },
 ];
 

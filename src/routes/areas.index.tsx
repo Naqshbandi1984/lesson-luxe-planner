@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { areas, site } from "@/lib/site";
+import { areas, listWithAnd, site } from "@/lib/site";
 
 export const Route = createFileRoute("/areas/")({
   head: () => ({
@@ -7,13 +7,12 @@ export const Route = createFileRoute("/areas/")({
       { title: `Areas Covered in Reading | ${site.brand}` },
       {
         name: "description",
-        content:
-          "Automatic driving lessons with door-to-door pick up across RG1, RG2, RG4, RG5, RG6, RG7 and RG30 in Reading.",
+        content: `Automatic driving lessons with door-to-door pick up across ${listWithAnd(areas.map((a) => a.postcode))} in Reading.`,
       },
       { property: "og:title", content: "Driving lesson areas across Reading" },
       {
         property: "og:description",
-        content: "Door-to-door automatic lessons across seven Reading postcodes.",
+        content: "Door-to-door automatic lessons across Reading postcodes.",
       },
     ],
   }),

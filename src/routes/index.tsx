@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LocalBusinessJsonLd } from "@/components/site/JsonLd";
-import { site } from "@/lib/site";
+import { areas, listWithAnd, site } from "@/lib/site";
 import { Hero } from "@/components/home/Hero";
 import { StatBand } from "@/components/home/StatBand";
 import { PricingSplit } from "@/components/home/PricingSplit";
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       { title: `Automatic Driving Lessons Reading | ${site.brand}` },
       {
         name: "description",
-        content: `Automatic driving lessons across Reading, RG1–RG30, from £67.50 (10hrs from £430) — ${site.yearsExperienceLabel} of experience, ${site.rating} stars from ${site.reviewCountLabel}.`,
+        content: `Automatic driving lessons across ${listWithAnd(areas.map((a) => a.postcode))} in Reading, from £67.50 (10hrs from £430) — ${site.yearsExperienceLabel} of experience, ${site.rating} stars from ${site.reviewCountLabel}.`,
       },
       { property: "og:title", content: "Automatic Driving Lessons in Reading" },
       {
