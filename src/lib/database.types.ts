@@ -1,12 +1,17 @@
-// Generated from the live Supabase schema (learnerdriver-academy project).
-// Regenerate after schema changes rather than hand-editing.
+// INTERIM: generated from the throwaway test project (lbquzzkmyxebcjfjihlo),
+// not the live learnerdriver-academy project — the address/dashboard
+// migration hasn't been merged to production yet. The throwaway's schema is
+// the exact target shape (same migration file), so this is accurate for
+// local dev/typecheck now. Regenerate from the real project once
+// supabase/migrations/20261018_address_fields_and_admin_dashboard.sql is
+// approved and merged to production.
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17";
+    PostgrestVersion: "14.18";
   };
   public: {
     Tables: {
@@ -51,7 +56,9 @@ export type Database = {
       };
       bookings: {
         Row: {
+          address_line1: string | null;
           calendar_event_id: string | null;
+          cancelled_at: string | null;
           created_at: string;
           date: string;
           end_time: string;
@@ -59,14 +66,18 @@ export type Database = {
           lesson_type_slug: string;
           notes: string | null;
           payment_method: string | null;
+          postcode: string | null;
           price: number;
           start_time: string;
           status: string;
           student_id: string;
+          town: string | null;
           updated_at: string;
         };
         Insert: {
+          address_line1?: string | null;
           calendar_event_id?: string | null;
+          cancelled_at?: string | null;
           created_at?: string;
           date: string;
           end_time: string;
@@ -74,14 +85,18 @@ export type Database = {
           lesson_type_slug: string;
           notes?: string | null;
           payment_method?: string | null;
+          postcode?: string | null;
           price: number;
           start_time: string;
           status?: string;
           student_id: string;
+          town?: string | null;
           updated_at?: string;
         };
         Update: {
+          address_line1?: string | null;
           calendar_event_id?: string | null;
+          cancelled_at?: string | null;
           created_at?: string;
           date?: string;
           end_time?: string;
@@ -89,10 +104,12 @@ export type Database = {
           lesson_type_slug?: string;
           notes?: string | null;
           payment_method?: string | null;
+          postcode?: string | null;
           price?: number;
           start_time?: string;
           status?: string;
           student_id?: string;
+          town?: string | null;
           updated_at?: string;
         };
         Relationships: [
@@ -147,30 +164,39 @@ export type Database = {
       };
       students: {
         Row: {
+          address_line1: string | null;
           created_at: string;
           email: string | null;
           id: string;
           name: string | null;
           notes: string | null;
           phone: string;
+          postcode: string | null;
+          town: string | null;
           updated_at: string;
         };
         Insert: {
+          address_line1?: string | null;
           created_at?: string;
           email?: string | null;
           id?: string;
           name?: string | null;
           notes?: string | null;
           phone: string;
+          postcode?: string | null;
+          town?: string | null;
           updated_at?: string;
         };
         Update: {
+          address_line1?: string | null;
           created_at?: string;
           email?: string | null;
           id?: string;
           name?: string | null;
           notes?: string | null;
           phone?: string;
+          postcode?: string | null;
+          town?: string | null;
           updated_at?: string;
         };
         Relationships: [];
@@ -182,6 +208,7 @@ export type Database = {
     Functions: {
       book_lesson: {
         Args: {
+          p_address_line1?: string;
           p_date: string;
           p_email?: string;
           p_end_time: string;
@@ -189,8 +216,10 @@ export type Database = {
           p_name: string;
           p_notes?: string;
           p_phone: string;
+          p_postcode?: string;
           p_price: number;
           p_start_time: string;
+          p_town?: string;
         };
         Returns: string;
       };
@@ -201,6 +230,7 @@ export type Database = {
       };
       create_bank_transfer_booking: {
         Args: {
+          p_address_line1?: string;
           p_date: string;
           p_email?: string;
           p_end_time: string;
@@ -208,26 +238,31 @@ export type Database = {
           p_name: string;
           p_notes?: string;
           p_phone: string;
+          p_postcode?: string;
           p_price: number;
           p_start_time: string;
+          p_town?: string;
         };
         Returns: string;
       };
       get_booking_for_notification: {
         Args: { p_booking_id: string };
         Returns: {
+          address_line1: string;
           booking_id: string;
           date: string;
           end_time: string;
           lesson_type_name: string;
           lesson_type_slug: string;
           payment_method: string;
+          postcode: string;
           price: number;
           start_time: string;
           status: string;
           student_email: string;
           student_name: string;
           student_phone: string;
+          town: string;
         }[];
       };
       get_taken_slots: {
@@ -257,6 +292,57 @@ export type Database = {
           student_phone: string;
         }[];
       };
+      list_bookings_admin: {
+        Args: {
+          p_from?: string;
+          p_limit?: number;
+          p_offset?: number;
+          p_status?: string;
+          p_to?: string;
+        };
+        Returns: {
+          address_line1: string;
+          booking_id: string;
+          calendar_event_id: string;
+          cancelled_at: string;
+          created_at: string;
+          date: string;
+          end_time: string;
+          lesson_type_slug: string;
+          notes: string;
+          payment_method: string;
+          postcode: string;
+          price: number;
+          start_time: string;
+          status: string;
+          student_email: string;
+          student_id: string;
+          student_name: string;
+          student_phone: string;
+          total_count: number;
+          town: string;
+        }[];
+      };
+      list_bookings_for_student: {
+        Args: { p_student_id: string };
+        Returns: {
+          address_line1: string;
+          booking_id: string;
+          calendar_event_id: string;
+          cancelled_at: string;
+          created_at: string;
+          date: string;
+          end_time: string;
+          lesson_type_slug: string;
+          notes: string;
+          payment_method: string;
+          postcode: string;
+          price: number;
+          start_time: string;
+          status: string;
+          town: string;
+        }[];
+      };
       list_pending_bank_transfer_bookings: {
         Args: never;
         Returns: {
@@ -272,6 +358,21 @@ export type Database = {
           student_email: string;
           student_name: string;
           student_phone: string;
+        }[];
+      };
+      list_students_admin: {
+        Args: { p_search?: string };
+        Returns: {
+          address_line1: string;
+          email: string;
+          last_lesson_date: string;
+          name: string;
+          next_lesson_date: string;
+          phone: string;
+          postcode: string;
+          student_id: string;
+          total_lessons: number;
+          town: string;
         }[];
       };
       list_upcoming_lessons_for_phone: {
