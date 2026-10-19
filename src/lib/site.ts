@@ -256,10 +256,10 @@ export const areas: Area[] = [
     slug: "rg7",
     postcode: "RG7",
     name: "Three Mile Cross",
-    places: "Theale edge",
+    places: "Three Mile Cross",
     note: "Country lanes and national speed limit roads — good for building confidence at higher speeds before test day.",
     localBlurb:
-      "Three Mile Cross and the edge of Theale feel a world away from central Reading, which is exactly the point for pupils who want space to build confidence before tackling town traffic. It's also useful if you know you'll be doing a lot of country driving once you've passed.",
+      "Three Mile Cross feels a world away from central Reading, which is exactly the point for pupils who want space to build confidence before tackling town traffic. It's also useful if you know you'll be doing a lot of country driving once you've passed.",
   },
 ];
 
