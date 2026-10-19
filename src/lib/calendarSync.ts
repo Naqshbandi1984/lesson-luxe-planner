@@ -41,6 +41,9 @@ export async function syncCalendarEventForConfirmedBooking(bookingId: string): P
       student_name: booking.student_name,
       student_phone: booking.student_phone,
       price: booking.price,
+      address_line1: booking.address_line1,
+      town: booking.town,
+      postcode: booking.postcode,
     });
 
     const { error: setError } = await supabase.rpc("set_booking_calendar_event_id", {

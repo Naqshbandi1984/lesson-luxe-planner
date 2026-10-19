@@ -94,6 +94,13 @@ async function handleStripeWebhook(request: Request): Promise<Response> {
         p_price: Number(m["price"] ?? 0),
         ...(m["notes"] ? { p_notes: m["notes"] } : {}),
         ...(m["email"] ? { p_email: m["email"] } : {}),
+        // Address metadata is new — tolerate its absence so a checkout
+        // session created before this deploy (metadata fixed at creation
+        // time) still completes instead of erroring. book_lesson's new
+        // params default to null.
+        ...(m["address_line1"] ? { p_address_line1: m["address_line1"] } : {}),
+        ...(m["town"] ? { p_town: m["town"] } : {}),
+        ...(m["postcode"] ? { p_postcode: m["postcode"] } : {}),
       });
       if (error) throw error;
       bookingId = data ?? null;

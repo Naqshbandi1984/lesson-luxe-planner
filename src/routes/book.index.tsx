@@ -5,6 +5,7 @@ import { Check, Info, Landmark, Loader2 } from "lucide-react";
 import { formatLongDate } from "@/lib/booking";
 import { getCheckedBookableDays } from "@/lib/availabilityServer";
 import {
+  areas,
   bankTransfer,
   BOOKING_WINDOW_DAYS,
   gbp,
@@ -16,6 +17,9 @@ import {
 import { createCheckoutSession } from "@/lib/checkout";
 import { supabase } from "@/lib/supabase";
 import { normalizePhone } from "@/lib/phone";
+import { isValidUkPostcode, normalizeUkPostcode, outwardCode } from "@/lib/postcode";
+
+const COVERED_OUTWARD_CODES = new Set(areas.map((a) => a.postcode.toUpperCase()));
 
 type BookSearch = {
   cancelled?: true;
@@ -75,11 +79,9 @@ const products: Product[] = [
   })),
 ];
 
-function buildNotes(postcode: string, notes: string): string | undefined {
-  const parts = [];
-  if (postcode.trim()) parts.push(`Pickup postcode: ${postcode.trim()}`);
-  if (notes.trim()) parts.push(notes.trim());
-  return parts.length > 0 ? parts.join(" — ") : undefined;
+function buildNotes(notes: string): string | undefined {
+  const trimmed = notes.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
 }
 
 function BookPage() {
@@ -100,8 +102,14 @@ function BookPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [town, setTown] = useState("");
   const [postcode, setPostcode] = useState("");
   const [notes, setNotes] = useState("");
+
+  const postcodeLooksValid = isValidUkPostcode(postcode);
+  const outOfCoverage =
+    postcodeLooksValid && !COVERED_OUTWARD_CODES.has(outwardCode(postcode) ?? "");
 
   const [phase, setPhase] = useState<"form" | "payment" | "bank-transfer-confirmation">("form");
   const [formError, setFormError] = useState<string | null>(null);
@@ -242,6 +250,14 @@ function BookPage() {
       setFormError("Your name and mobile number are needed to hold the booking.");
       return;
     }
+    if (!addressLine1.trim() || !town.trim()) {
+      setFormError("Your pick-up address (house number/street and town) is needed to hold the booking.");
+      return;
+    }
+    if (!isValidUkPostcode(postcode)) {
+      setFormError("Enter a valid UK postcode for pick-up.");
+      return;
+    }
     setFormError(null);
     setPhase("payment");
   }
@@ -260,8 +276,11 @@ function BookPage() {
           date: selectedSlot.date,
           startTime: selectedSlot.start,
           endTime: selectedSlot.end,
+          addressLine1: addressLine1.trim(),
+          town: town.trim(),
+          postcode: normalizeUkPostcode(postcode),
           ...((): { notes?: string } => {
-            const n = buildNotes(postcode, notes);
+            const n = buildNotes(notes);
             return n ? { notes: n } : {};
           })(),
           price: product.price,
@@ -280,7 +299,7 @@ function BookPage() {
     if (!slot || !selectedSlot) return;
     setCreatingBankTransfer(true);
     setBankTransferError(null);
-    const notesValue = buildNotes(postcode, notes);
+    const notesValue = buildNotes(notes);
     try {
       const { data, error } = await supabase.rpc("create_bank_transfer_booking", {
         p_phone: normalizePhone(phone),
@@ -290,6 +309,9 @@ function BookPage() {
         p_start_time: selectedSlot.start,
         p_end_time: selectedSlot.end,
         p_price: product.price,
+        p_address_line1: addressLine1.trim(),
+        p_town: town.trim(),
+        p_postcode: normalizeUkPostcode(postcode),
         ...(notesValue ? { p_notes: notesValue } : {}),
         ...(email.trim() ? { p_email: email.trim() } : {}),
       });
@@ -464,8 +486,31 @@ function BookPage() {
                     <Field label="Full name" id="name" autoComplete="name" value={name} onChange={setName} />
                     <Field label="Mobile number" id="tel" type="tel" autoComplete="tel" value={phone} onChange={setPhone} />
                     <Field label="Email" id="email" type="email" autoComplete="email" value={email} onChange={setEmail} />
-                    <Field label="Pick-up postcode" id="postcode" autoComplete="postal-code" value={postcode} onChange={setPostcode} />
                   </div>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <Field
+                      label="House number/name and street"
+                      id="address-line1"
+                      autoComplete="address-line1"
+                      value={addressLine1}
+                      onChange={setAddressLine1}
+                    />
+                    <Field label="Town" id="town" autoComplete="address-level2" value={town} onChange={setTown} />
+                    <Field
+                      label="Postcode"
+                      id="postcode"
+                      autoComplete="postal-code"
+                      value={postcode}
+                      onChange={setPostcode}
+                    />
+                  </div>
+                  {outOfCoverage && (
+                    <p className="mt-3 border-l-4 border-hp-accent bg-hp-accent/10 p-3 text-sm text-hp-paper-foreground/80">
+                      We don't currently have a listed area covering that postcode — we may still be able to help,
+                      so call {site.phone} to check before booking, or go ahead and we'll be in touch if pick-up
+                      isn't workable.
+                    </p>
+                  )}
                   <label htmlFor="notes" className="mt-4 block text-sm font-bold text-hp-paper-foreground/70">
                     Anything I should know?
                   </label>

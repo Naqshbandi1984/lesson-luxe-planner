@@ -145,9 +145,23 @@ export type BookingForCalendar = {
   student_name: string | null;
   student_phone: string;
   price: number;
+  /** The pick-up address as it was for THIS booking (a snapshot on the
+   * bookings row, not the student's possibly-since-changed latest address)
+   * — may be null for bookings made before address collection existed. */
+  address_line1: string | null;
+  town: string | null;
+  postcode: string | null;
 };
 
+function pickupLocation(booking: BookingForCalendar): string | undefined {
+  const parts = [booking.address_line1, booking.town, booking.postcode].filter(
+    (p): p is string => !!p && p.trim().length > 0,
+  );
+  return parts.length > 0 ? parts.join(", ") : undefined;
+}
+
 function toEventBody(booking: BookingForCalendar) {
+  const location = pickupLocation(booking);
   return {
     summary: `${booking.lesson_type_name} — ${booking.student_name ?? booking.student_phone}`,
     description: [
@@ -160,6 +174,7 @@ function toEventBody(booking: BookingForCalendar) {
       timeZone: "Europe/London",
     },
     end: { dateTime: `${booking.date}T${hhmm(booking.end_time)}:00`, timeZone: "Europe/London" },
+    ...(location ? { location } : {}),
   };
 }
 
@@ -286,9 +301,7 @@ function describeGoogleError(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
-export type ConnectionCheckResult =
-  | { ok: true; detail: string }
-  | { ok: false; message: string };
+export type ConnectionCheckResult = { ok: true; detail: string } | { ok: false; message: string };
 
 /**
  * On-demand check for the admin health page — same auth path as every real
@@ -303,7 +316,8 @@ export async function checkGoogleCalendarConnection(): Promise<ConnectionCheckRe
   if (!isGoogleCalendarConfigured()) {
     return {
       ok: false,
-      message: "Not connected — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET or GOOGLE_REFRESH_TOKEN is missing.",
+      message:
+        "Not connected — GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET or GOOGLE_REFRESH_TOKEN is missing.",
     };
   }
   try {

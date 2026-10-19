@@ -9,6 +9,9 @@ export type CheckoutInput = {
   date: string;
   startTime: string;
   endTime: string;
+  addressLine1: string;
+  town: string;
+  postcode: string;
   notes?: string;
   price: number;
   productName: string;
@@ -48,6 +51,9 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
         date: data.date,
         start_time: data.startTime,
         end_time: data.endTime,
+        address_line1: data.addressLine1,
+        town: data.town,
+        postcode: data.postcode,
         notes: data.notes ?? "",
         price: String(data.price),
       },
